@@ -5,8 +5,6 @@ use strum_macros::EnumIter;
 
 use crate::{Dice, ancestry::LanguageKind, langpack};
 
-pub mod fighter;
-
 #[derive(Debug, Clone, EnumIter)]
 pub enum Class {
     Fighter,
@@ -136,12 +134,12 @@ impl Display for Class {
 }
 
 pub struct ClassAttributes {
-    hit_points: u32,
-    weapon_masteries: Vec<WeaponMastery>,
-    armor_masteries: Vec<ArmorMastery>,
-    class_features: Vec<ClassFeature>,
-    talents: Vec<Talent>,
-    languages: Vec<LanguageKind>,
+    pub hit_points: u32,
+    pub weapon_masteries: Vec<WeaponMastery>,
+    pub armor_masteries: Vec<ArmorMastery>,
+    pub class_features: Vec<ClassFeature>,
+    pub talents: Vec<Talent>,
+    pub languages: Vec<LanguageKind>,
 }
 
 impl Display for ClassAttributes {

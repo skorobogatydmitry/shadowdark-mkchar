@@ -3,7 +3,7 @@ use std::{collections::BTreeMap, fmt::Display};
 use clap::Parser;
 
 use ancestry::Ancestry;
-use class::Class;
+use class::{Class, ClassAttributes};
 use rand::{Rng, seq::IteratorRandom};
 use strum::IntoEnumIterator;
 
@@ -113,6 +113,10 @@ impl Stats {
         let map = attrs.into_iter().map(|a| (a.kind.clone(), a)).collect();
         Self { map }
     }
+
+    pub fn modifier(&self, kind: StatKind) -> i8 {
+        self.map.get(&kind).map(|s| s.modifier()).unwrap()
+    }
 }
 
 impl Display for Stats {
@@ -126,6 +130,21 @@ impl Display for Stats {
                 .collect::<Vec<String>>()
                 .join(", ")
         )
+    }
+}
+
+struct Character {
+    max_hit_points: u32,
+}
+
+impl Character {
+    fn new(stats: Stats, ancestry: Ancestry, class_attributes: ClassAttributes) -> Self {
+        Self {
+            max_hit_points: std::cmp::max(
+                1,
+                class_attributes.hit_points as i8 + stats.modifier(StatKind::Constitution) as i8,
+            ) as u32,
+        }
     }
 }
 
@@ -143,8 +162,11 @@ pub fn make_character(args: Args) {
             .map(|c| format!("{}", c))
             .unwrap_or(format!("{}", langpack::PACK.class_args.zero))
     );
-    let cls_attrs = class.map(|c| c.fill()).unwrap_or_default();
-    println!("{}", cls_attrs);
+    let class_attributes = class.map(|c| c.fill()).unwrap_or_default();
+    println!("{}", class_attributes);
+
+    let character = Character::new(stats, ancestry, class_attributes);
+    println!("{}", character.max_hit_points)
 }
 
 /// Shadowdark quick characters generator
