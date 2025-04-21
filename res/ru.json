@@ -171,5 +171,45 @@
     "devoted": "+2 к Силе или Мудрости",
     "thin_air_craft": "Создаёте один случайный волшебный предмет (см. Краткое руководство МИ)",
     "bookworm": "Изучаете одно дополнительное заклинание любого круга, доступного вам"
+  },
+  "deity": "Божество",
+  "deities": {
+    "saint_terragnis": "Святая Террагнис",
+    "gede": "Геде",
+    "madeera_the_covenant": "Мадира Заветная",
+    "ord": "Орд",
+    "memnon": "Мемнон",
+    "ramlaat": "Рамлаат",
+    "shune_the_vile": "Шун Злобная",
+    "the_lost": "Забытые"
+  },
+  "background": "Предыстория",
+  "backgrounds": {
+    "urchin": "Беспризорник",
+    "wanted": "В розыске",
+    "cult_initiate": "Культист",
+    "thieves_guild": "Гильдия воров",
+    "banished": "Изгнанник",
+    "orphaned": "Сирота",
+    "wizards_apprentice": "Ученик волшебника",
+    "jeweler": "Ювелир",
+    "herbalist": "Травник",
+    "barbarian": "Варвар",
+    "mercenary": "Наёмник",
+    "sailor": "Моряк",
+    "alcolyte": "Послушник",
+    "soldier": "Солдат",
+    "ranger": "Следопыт",
+    "scout": "Разведчик",
+    "minstrel": "Менестрель",
+    "scholar": "Учёный",
+    "nobel": "Дворянин",
+    "chirurgeon": "Хирург"
+  },
+  "alignment": "Мировоззрение",
+  "alignments": {
+    "chaotic": "Хаотичный",
+    "neutral": "Нейтральный",
+    "lawful": "Законопослушный"
   }
 }

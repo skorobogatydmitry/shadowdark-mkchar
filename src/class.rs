@@ -191,7 +191,7 @@ impl Default for ClassAttributes {
     }
 }
 
-enum WeaponMastery {
+pub enum WeaponMastery {
     All,
     Club,
     Crossbow,
@@ -225,7 +225,7 @@ impl Display for WeaponMastery {
     }
 }
 
-enum ArmorMastery {
+pub enum ArmorMastery {
     All,
     Shields,
     LeatherArmor,
@@ -247,7 +247,7 @@ impl Display for ArmorMastery {
     }
 }
 
-enum ClassFeature {
+pub enum ClassFeature {
     Hauler,
     WeaponMastery,
     Grit,
@@ -279,7 +279,7 @@ impl Display for ClassFeature {
 }
 
 // all names are made-up by me as convenient lables
-enum Talent {
+pub enum Talent {
     WeaponMastery,
     PreciseStrike,
     Trained,

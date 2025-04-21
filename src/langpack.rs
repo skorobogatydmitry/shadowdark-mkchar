@@ -32,6 +32,12 @@ pub struct LangPack {
     pub class_features: ClassFeatures,
     pub talent: String,
     pub talents: Talents,
+    pub deity: String,
+    pub deities: Deities,
+    pub background: String,
+    pub backgrounds: Backgrounds,
+    pub alignment: String,
+    pub alignments: Alignments,
 }
 
 impl LangPack {
@@ -147,4 +153,47 @@ pub struct Talents {
     pub devoted: String,
     pub thin_air_craft: String,
     pub bookworm: String,
+}
+
+#[derive(Deserialize)]
+pub struct Deities {
+    pub saint_terragnis: String,
+    pub gede: String,
+    pub madeera_the_covenant: String,
+    pub ord: String,
+    pub memnon: String,
+    pub ramlaat: String,
+    pub shune_the_vile: String,
+    pub the_lost: String,
+}
+
+#[derive(Deserialize)]
+pub struct Backgrounds {
+    pub urchin: String,
+    pub wanted: String,
+    pub cult_initiate: String,
+    pub thieves_guild: String,
+    pub banished: String,
+    pub orphaned: String,
+    pub wizards_apprentice: String,
+    pub jeweler: String,
+    pub herbalist: String,
+    pub barbarian: String,
+    pub mercenary: String,
+    pub sailor: String,
+    pub alcolyte: String,
+    pub soldier: String,
+    pub ranger: String,
+    pub scout: String,
+    pub minstrel: String,
+    pub scholar: String,
+    pub nobel: String,
+    pub chirurgeon: String,
+}
+
+#[derive(Deserialize)]
+pub struct Alignments {
+    pub chaotic: String,
+    pub neutral: String,
+    pub lawful: String,
 }

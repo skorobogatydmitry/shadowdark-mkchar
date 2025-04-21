@@ -1,14 +1,20 @@
 use std::{collections::BTreeMap, fmt::Display};
 
+use alignment::Alignment;
+use background::Background;
 use clap::Parser;
 
 use ancestry::Ancestry;
 use class::{Class, ClassAttributes};
+use deities::Deity;
 use rand::{Rng, seq::IteratorRandom};
 use strum::IntoEnumIterator;
 
+mod alignment;
 mod ancestry;
-pub mod class;
+mod background;
+mod class;
+mod deities;
 mod langpack;
 
 enum Dice {
@@ -135,16 +141,37 @@ impl Display for Stats {
 
 struct Character {
     max_hit_points: u32,
+    background: Background,
+    alignment: Alignment,
+    deity: Deity,
 }
 
 impl Character {
-    fn new(stats: Stats, ancestry: Ancestry, class_attributes: ClassAttributes) -> Self {
+    fn new(stats: Stats, _ancestry: Ancestry, class_attributes: ClassAttributes) -> Self {
+        let alignment: Alignment = Alignment::iter().choose(&mut rand::rng()).unwrap();
         Self {
             max_hit_points: std::cmp::max(
                 1,
                 class_attributes.hit_points as i8 + stats.modifier(StatKind::Constitution) as i8,
             ) as u32,
+            background: Background::iter().choose(&mut rand::rng()).unwrap(),
+            deity: Deity::roll(&alignment),
+            alignment,
         }
+    }
+}
+
+impl Display for Character {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}: {}\n",
+            langpack::PACK.hit_points,
+            self.max_hit_points
+        )?;
+        write!(f, "{}\n", self.background)?;
+        write!(f, "{}\n", self.alignment)?;
+        write!(f, "{}\n", self.deity)
     }
 }
 
@@ -166,7 +193,7 @@ pub fn make_character(args: Args) {
     println!("{}", class_attributes);
 
     let character = Character::new(stats, ancestry, class_attributes);
-    println!("{}", character.max_hit_points)
+    println!("{}", character)
 }
 
 /// Shadowdark quick characters generator
