@@ -265,7 +265,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "shadowdark_mkchar"
+name = "shadowdark-mkchar"
 version = "0.1.0"
 dependencies = [
  "clap",

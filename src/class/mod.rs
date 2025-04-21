@@ -63,6 +63,45 @@ impl Class {
                 Self::Priest => vec![ClassFeature::SpellCasting, ClassFeature::TurnUndead],
                 Self::Wizard => vec![ClassFeature::SpellCasting, ClassFeature::LearningSpells],
             },
+            talents: vec![self.roll_talent()],
+        }
+    }
+
+    fn roll_talent(&self) -> Talent {
+        let talent_roll = Dice::D6.roll() + Dice::D6.roll();
+        match self {
+            Self::Fighter => match talent_roll {
+                2 => Talent::WeaponMastery,
+                3..=6 => Talent::PreciseStrike,
+                7..=9 => Talent::Trained,
+                10..=11 => Talent::ArmorTraining,
+                12 => Talent::Gifted,
+                _ => panic!("2d6 == {} !!!", talent_roll),
+            },
+            Self::Thief => match talent_roll {
+                2 => Talent::Vigilant, // TODO: re-roll dups
+                3..=5 => Talent::DeadlyStab,
+                6..=9 => Talent::Versatile,
+                10..=11 => Talent::PreciseStrike,
+                12 => Talent::Gifted,
+                _ => panic!("2d6 == {} !!!", talent_roll),
+            },
+            Self::Priest => match talent_roll {
+                2 => Talent::SpellExpert,
+                3..=6 => Talent::PreciseStrike,
+                7..=9 => Talent::GodBlessed,
+                10..=11 => Talent::Devoted,
+                12 => Talent::Gifted,
+                _ => panic!("2d6 == {} !!!", talent_roll),
+            },
+            Self::Wizard => match talent_roll {
+                2 => Talent::ThinAirCraft,
+                3..=7 => Talent::SkilledCaster,
+                8..=9 => Talent::SpellExpert,
+                10..=11 => Talent::Bookworm,
+                12 => Talent::Gifted,
+                _ => panic!("2d6 == {} !!!", talent_roll),
+            },
         }
     }
 }
@@ -87,13 +126,14 @@ pub struct ClassAttributes {
     weapon_masteries: Vec<WeaponMastery>,
     armor_masteries: Vec<ArmorMastery>,
     class_features: Vec<ClassFeature>,
+    talents: Vec<Talent>,
 }
 
 impl Display for ClassAttributes {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
-            "{}: {}\n{}: {}\n{}: {}\n{}:\n  {}",
+            "{}: {}\n{}: {}\n{}: {}\n{}:\n  {}\n{}:\n  {}",
             langpack::PACK.hit_points,
             self.hit_points,
             langpack::PACK.weapon,
@@ -113,7 +153,13 @@ impl Display for ClassAttributes {
                 .iter()
                 .map(|cf| format!("{}", cf))
                 .collect::<Vec<String>>()
-                .join("\n  ")
+                .join("\n  "),
+            langpack::PACK.talent,
+            self.talents
+                .iter()
+                .map(|cf| format!("{}", cf))
+                .collect::<Vec<String>>()
+                .join("\n  "),
         )
     }
 }
@@ -126,6 +172,7 @@ impl Default for ClassAttributes {
             weapon_masteries: vec![WeaponMastery::All],
             armor_masteries: vec![ArmorMastery::All, ArmorMastery::Shields],
             class_features: vec![ClassFeature::BeginnersLuck],
+            talents: vec![],
         }
     }
 }
@@ -214,5 +261,48 @@ impl Display for ClassFeature {
             Self::BeginnersLuck => langpack::PACK.class_features.beginners_luck.clone(),
         };
         write!(f, "{}: {}", feature.name, feature.description)
+    }
+}
+
+// all names are made-up by me as convenient lables
+enum Talent {
+    WeaponMastery,
+    PreciseStrike,
+    Trained,
+    ArmorTraining,
+    Gifted,
+    Versatile, // Thief stats
+    Vigilant,
+    DeadlyStab,
+    GodBlessed,
+    SpellExpert,
+    SkilledCaster,
+    Devoted,
+    ThinAirCraft,
+    Bookworm,
+}
+
+impl Display for Talent {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                Self::WeaponMastery => langpack::PACK.talents.weapon_mastery.clone(),
+                Self::PreciseStrike => langpack::PACK.talents.precise_strike.clone(),
+                Self::Trained => langpack::PACK.talents.trained.clone(),
+                Self::ArmorTraining => langpack::PACK.talents.armor_training.clone(),
+                Self::Gifted => langpack::PACK.talents.gifted.clone(),
+                Self::Versatile => langpack::PACK.talents.versatile.clone(),
+                Self::Vigilant => langpack::PACK.talents.vigilant.clone(),
+                Self::DeadlyStab => langpack::PACK.talents.deadly_stab.clone(),
+                Self::GodBlessed => langpack::PACK.talents.god_blessed.clone(),
+                Self::SpellExpert => langpack::PACK.talents.spell_expert.clone(),
+                Self::SkilledCaster => langpack::PACK.talents.skilled_caster.clone(),
+                Self::Devoted => langpack::PACK.talents.devoted.clone(),
+                Self::ThinAirCraft => langpack::PACK.talents.thin_air_craft.clone(),
+                Self::Bookworm => langpack::PACK.talents.bookworm.clone(),
+            }
+        )
     }
 }

@@ -30,6 +30,8 @@ pub struct LangPack {
     pub armor_masteries: ArmorMasteries,
     pub features: String,
     pub class_features: ClassFeatures,
+    pub talent: String,
+    pub talents: Talents,
 }
 
 impl LangPack {
@@ -127,4 +129,22 @@ pub struct ClassFeatures {
     pub theivery: Feature,
     pub jack_of_all_trades: Feature,
     pub beginners_luck: Feature,
+}
+
+#[derive(Deserialize)]
+pub struct Talents {
+    pub weapon_mastery: String,
+    pub precise_strike: String,
+    pub trained: String,
+    pub armor_training: String,
+    pub gifted: String,
+    pub versatile: String,
+    pub vigilant: String,
+    pub deadly_stab: String,
+    pub god_blessed: String,
+    pub spell_expert: String,
+    pub skilled_caster: String,
+    pub devoted: String,
+    pub thin_air_craft: String,
+    pub bookworm: String,
 }
