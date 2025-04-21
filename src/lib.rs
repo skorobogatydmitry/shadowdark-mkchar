@@ -1,7 +1,9 @@
 use std::{collections::BTreeMap, fmt::Display};
 
+use ancestry::Ancestry;
 use rand::Rng;
 
+mod ancestry;
 mod langpack;
 
 enum Dice {
@@ -96,7 +98,7 @@ impl Stats {
         }
 
         if attrs.iter().map(|a| a.val).max().unwrap() < 14 {
-            panic!("{}", langpack::PACK.stats_out_of_attempts);
+            panic!("{}", langpack::PACK.error_messages.stats_out_of_attempts);
         }
 
         let map = attrs.into_iter().map(|a| (a.kind.clone(), a)).collect();
@@ -121,4 +123,6 @@ impl Display for Stats {
 pub fn make_character() {
     let stats = Stats::generate();
     println!("{} | {stats}", langpack::PACK.stats);
+    let ancestry = Ancestry::roll();
+    println!("{}", ancestry)
 }
