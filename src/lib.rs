@@ -15,11 +15,13 @@ enum Dice {
     D6,
     D8,
     D4,
+    D3,
 }
 
 impl Dice {
     fn roll(&self) -> u8 {
         let max = match self {
+            Self::D3 => 3,
             Self::D4 => 4,
             Self::D6 => 6,
             Self::D8 => 8,

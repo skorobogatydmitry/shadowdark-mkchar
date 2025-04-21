@@ -127,7 +127,7 @@ impl Language {
                 LanguageKind::Thanian => langpack::PACK.languages.thanian.clone(),
                 LanguageKind::Celestial => langpack::PACK.languages.celestial.clone(),
                 LanguageKind::Diabolic => langpack::PACK.languages.diabolic.clone(),
-                LanguageKind::Primodial => langpack::PACK.languages.primodial.clone(),
+                LanguageKind::Primordial => langpack::PACK.languages.primordial.clone(),
             },
             kind,
         }
@@ -149,7 +149,7 @@ impl Display for Language {
     }
 }
 
-#[derive(Debug, Deserialize, EnumIter, PartialEq)]
+#[derive(Debug, Deserialize, EnumIter, PartialEq, Clone)]
 #[serde(rename_all = "snake_case")]
 pub enum LanguageKind {
     Common,
@@ -165,7 +165,7 @@ pub enum LanguageKind {
     Thanian,
     Celestial,
     Diabolic,
-    Primodial,
+    Primordial,
 }
 
 impl LanguageKind {
@@ -184,7 +184,7 @@ impl LanguageKind {
             Self::Draconic => false,
             Self::Celestial => false,
             Self::Diabolic => false,
-            Self::Primodial => false,
+            Self::Primordial => false,
         }
     }
 }

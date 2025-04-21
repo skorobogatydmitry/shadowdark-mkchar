@@ -1,8 +1,9 @@
-use std::fmt::Display;
+use std::{fmt::Display, vec};
 
+use rand::seq::IndexedRandom;
 use strum_macros::EnumIter;
 
-use crate::{Dice, langpack};
+use crate::{Dice, ancestry::LanguageKind, langpack};
 
 pub mod fighter;
 
@@ -64,6 +65,19 @@ impl Class {
                 Self::Wizard => vec![ClassFeature::SpellCasting, ClassFeature::LearningSpells],
             },
             talents: vec![self.roll_talent()],
+            languages: match self {
+                Class::Priest => vec![
+                    vec![
+                        LanguageKind::Celestial,
+                        LanguageKind::Diabolic,
+                        LanguageKind::Primordial,
+                    ]
+                    .choose(&mut rand::rng())
+                    .unwrap()
+                    .clone(),
+                ],
+                _ => vec![],
+            },
         }
     }
 
@@ -127,6 +141,7 @@ pub struct ClassAttributes {
     armor_masteries: Vec<ArmorMastery>,
     class_features: Vec<ClassFeature>,
     talents: Vec<Talent>,
+    languages: Vec<LanguageKind>,
 }
 
 impl Display for ClassAttributes {
@@ -173,6 +188,7 @@ impl Default for ClassAttributes {
             armor_masteries: vec![ArmorMastery::All, ArmorMastery::Shields],
             class_features: vec![ClassFeature::BeginnersLuck],
             talents: vec![],
+            languages: vec![],
         }
     }
 }

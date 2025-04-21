@@ -65,7 +65,7 @@ pub struct Languages {
     pub thanian: String,
     pub celestial: String,
     pub diabolic: String,
-    pub primodial: String,
+    pub primordial: String,
 }
 
 #[derive(Deserialize)]
