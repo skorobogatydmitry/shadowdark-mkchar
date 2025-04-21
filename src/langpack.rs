@@ -21,6 +21,8 @@ pub struct LangPack {
     pub language: String,
     pub languages: Languages,
     pub ancestry_features: AncestryFeatures,
+    pub class: String,
+    pub class_args: ClassArgs,
 }
 
 impl LangPack {
@@ -36,6 +38,7 @@ impl LangPack {
 pub struct ErrorMessages {
     pub stats_out_of_attempts: String,
     pub not_all_ancestries: String,
+    pub unknown_class_option: String,
 }
 
 #[derive(Deserialize)]
@@ -71,4 +74,14 @@ pub struct AncestryFeatures {
 pub struct Feature {
     pub name: String,
     pub description: String,
+}
+
+#[derive(Deserialize)]
+pub struct ClassArgs {
+    pub zero: String,
+    pub any: String,
+    pub fighter: String,
+    pub thief: String,
+    pub wizard: String,
+    pub priest: String,
 }
