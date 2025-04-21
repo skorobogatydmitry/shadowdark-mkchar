@@ -12,13 +12,17 @@ pub mod class;
 mod langpack;
 
 enum Dice {
-    D6 = 6,
+    D6,
+    D8,
+    D4,
 }
 
 impl Dice {
     fn roll(&self) -> u8 {
         let max = match self {
+            Self::D4 => 4,
             Self::D6 => 6,
+            Self::D8 => 8,
         };
         rand::rng().random_range(1..=max)
     }
@@ -135,9 +139,12 @@ pub fn make_character(args: Args) {
         "{}: {}",
         langpack::PACK.class,
         class
+            .as_ref()
             .map(|c| format!("{}", c))
             .unwrap_or(format!("{}", langpack::PACK.class_args.zero))
-    )
+    );
+    let cls_attrs = class.map(|c| c.fill()).unwrap_or_default();
+    println!("{}", cls_attrs);
 }
 
 /// Shadowdark quick characters generator

@@ -23,6 +23,13 @@ pub struct LangPack {
     pub ancestry_features: AncestryFeatures,
     pub class: String,
     pub class_args: ClassArgs,
+    pub hit_points: String,
+    pub weapon: String,
+    pub weapon_masteries: WeaponMasteries,
+    pub armor: String,
+    pub armor_masteries: ArmorMasteries,
+    pub features: String,
+    pub class_features: ClassFeatures,
 }
 
 impl LangPack {
@@ -84,4 +91,40 @@ pub struct ClassArgs {
     pub thief: String,
     pub wizard: String,
     pub priest: String,
+}
+
+#[derive(Deserialize)]
+pub struct WeaponMasteries {
+    pub all: String,
+    pub club: String,
+    pub crossbow: String,
+    pub mace: String,
+    pub longsword: String,
+    pub staff: String,
+    pub warhammer: String,
+    pub dagger: String,
+    pub shortbow: String,
+    pub shortsword: String,
+}
+
+#[derive(Deserialize)]
+pub struct ArmorMasteries {
+    pub all: String,
+    pub shields: String,
+    pub leather_armor: String,
+    pub mithral_chainmail: String,
+}
+
+#[derive(Deserialize)]
+pub struct ClassFeatures {
+    pub hauler: Feature,
+    pub weapon_mastery: Feature,
+    pub grit: Feature,
+    pub turn_undead: Feature,
+    pub spellcasting: Feature,
+    pub learning_spells: Feature,
+    pub backstab: Feature,
+    pub theivery: Feature,
+    pub jack_of_all_trades: Feature,
+    pub beginners_luck: Feature,
 }
