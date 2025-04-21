@@ -1,6 +1,6 @@
 use std::{collections::BTreeMap, fmt::Display};
 
-use clap::{Parser, ValueEnum, builder::Str};
+use clap::Parser;
 
 use ancestry::Ancestry;
 use class::Class;
