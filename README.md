@@ -6,6 +6,19 @@ Features:
 - randomly generate level 1 or level 0 character for Shadowdark.
 - support translations (only russian for now)
 
+# Run
+
+- you need to download and unpack one of the release archives from github
+- then, open terminal window
+- and run something like `./Downloads/shadowdark-mkchar-*/shadowdark-mkchar`
+
+## Translations
+
+The tool supports language packs.  
+`res/ru.json` is the default translation supplied with the tool.
+The tool searches for it near itself and in working directory.  
+`SHADOWDARK_MKCHAR_LANG_PACK_FILE` environment variable could be used to overwrite it like this: `SHADOWDARK_MKCHAR_LANG_PACK_FILE=./res/alt.json ./shadowdark-mkchar`
+
 # Build
 
 ## Manual

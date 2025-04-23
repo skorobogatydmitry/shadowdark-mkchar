@@ -1,4 +1,4 @@
-use std::{cell::LazyCell, fs};
+use std::{cell::LazyCell, env, fs, path::Path};
 
 use rand::seq::IndexedRandom;
 
@@ -7,6 +7,7 @@ use serde::Deserialize;
 use crate::ancestry::Ancestry;
 
 pub const LANG_PACK: LazyCell<LangPack> = LazyCell::new(|| LangPack::load());
+static LANG_PACK_ENV_VAR_NAME: &str = "SHADOWDARK_MKCHAR_LANG_PACK_FILE";
 
 #[derive(Deserialize)]
 pub struct LangPack {
@@ -52,10 +53,32 @@ pub struct LangPack {
 
 impl LangPack {
     pub fn load() -> Self {
-        // TODO: read env and pick a correct lang pack
-        let file_name = "res/ru.json";
-        serde_json::from_str(&fs::read_to_string(file_name).expect("cannot read language file"))
-            .expect("cannot read language pack file")
+        let lang_file = env::var(LANG_PACK_ENV_VAR_NAME).unwrap_or(Self::default_lang_pack());
+        serde_json::from_str(
+            &fs::read_to_string(&lang_file)
+                .expect(&format!("cannot read language file {}", lang_file)),
+        )
+        .expect(&format!("cannot read language file {}", lang_file))
+    }
+
+    // get relative to CWD or relative to binary
+    fn default_lang_pack() -> String {
+        let relative_to_cwd = "res/ru.json".to_string();
+        if Path::new(&relative_to_cwd).exists() {
+            relative_to_cwd
+        } else {
+            let basedir = match env::current_exe() {
+                Ok(path) => {
+                    if let Some(dir) = path.parent() {
+                        dir.to_str().unwrap_or("").to_string()
+                    } else {
+                        "".to_string()
+                    }
+                }
+                Err(_) => "".to_string(),
+            };
+            format!("{}/res/ru.json", basedir)
+        }
     }
 }
 
