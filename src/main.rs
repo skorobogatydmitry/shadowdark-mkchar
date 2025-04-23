@@ -1,5 +1,7 @@
 use clap::Parser;
+use shadowdark_mkchar::Character;
 
 fn main() {
-    shadowdark_mkchar::make_character(shadowdark_mkchar::Args::parse());
+    let character = Character::new(shadowdark_mkchar::Args::parse());
+    println!("{}", character);
 }

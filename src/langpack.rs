@@ -236,7 +236,7 @@ pub struct Names {
 }
 
 impl Names {
-    pub fn roll(&self, ancestry: Ancestry) -> String {
+    pub fn roll(&self, ancestry: &Ancestry) -> String {
         match ancestry {
             Ancestry::Dwarf(_) => self.dwarf.choose(&mut rand::rng()),
             Ancestry::Elf(_) => self.elf.choose(&mut rand::rng()),

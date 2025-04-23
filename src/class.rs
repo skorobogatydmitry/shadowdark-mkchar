@@ -3,7 +3,7 @@ use std::{fmt::Display, vec};
 use rand::seq::IndexedRandom;
 use strum_macros::EnumIter;
 
-use crate::{Dice, ancestry::LanguageKind, langpack};
+use crate::{Dice, ancestry::LanguageKind, langpack::PACK as LANGPACK};
 
 #[derive(Debug, Clone, EnumIter)]
 pub enum Class {
@@ -77,6 +77,7 @@ impl Class {
                 ],
                 _ => vec![],
             },
+            class: Some(self),
         }
     }
 
@@ -125,10 +126,10 @@ impl Display for Class {
             f,
             "{}",
             match self {
-                Self::Fighter => langpack::PACK.class_args.fighter.clone(),
-                Self::Thief => langpack::PACK.class_args.thief.clone(),
-                Self::Wizard => langpack::PACK.class_args.wizard.clone(),
-                Self::Priest => langpack::PACK.class_args.priest.clone(),
+                Self::Fighter => LANGPACK.class_args.fighter.clone(),
+                Self::Thief => LANGPACK.class_args.thief.clone(),
+                Self::Wizard => LANGPACK.class_args.wizard.clone(),
+                Self::Priest => LANGPACK.class_args.priest.clone(),
             }
         )
     }
@@ -142,6 +143,7 @@ pub struct ClassAttributes {
     pub class_features: Vec<ClassFeature>,
     pub talents: Vec<Talent>,
     pub languages: Vec<LanguageKind>,
+    pub class: Option<Class>,
 }
 
 impl Display for ClassAttributes {
@@ -149,27 +151,30 @@ impl Display for ClassAttributes {
         write!(
             f,
             "{}: {}\n{}: {}\n{}: {}\n{}:\n  {}\n{}:\n  {}",
-            langpack::PACK.hit_points,
-            self.hit_points,
-            langpack::PACK.weapon,
+            LANGPACK.class,
+            self.class
+                .as_ref()
+                .map(|c| format!("{}", c))
+                .unwrap_or(LANGPACK.class_args.zero.clone()),
+            LANGPACK.weapon,
             self.weapon_masteries
                 .iter()
                 .map(|m| format!("{}", m))
                 .collect::<Vec<String>>()
                 .join(", "),
-            langpack::PACK.armor,
+            LANGPACK.armor,
             self.armor_masteries
                 .iter()
                 .map(|m| format!("{}", m))
                 .collect::<Vec<String>>()
                 .join(", "),
-            langpack::PACK.features,
+            LANGPACK.features,
             self.class_features
                 .iter()
                 .map(|cf| format!("{}", cf))
                 .collect::<Vec<String>>()
                 .join("\n  "),
-            langpack::PACK.talent,
+            LANGPACK.talent,
             self.talents
                 .iter()
                 .map(|cf| format!("{}", cf))
@@ -190,6 +195,7 @@ impl Default for ClassAttributes {
             talents: vec![],
             languages: vec![],
             level: 0,
+            class: None,
         }
     }
 }
@@ -213,16 +219,16 @@ impl Display for WeaponMastery {
             f,
             "{}",
             match self {
-                Self::All => langpack::PACK.weapon_masteries.all.clone(),
-                Self::Club => langpack::PACK.weapon_masteries.club.clone(),
-                Self::Crossbow => langpack::PACK.weapon_masteries.crossbow.clone(),
-                Self::Mace => langpack::PACK.weapon_masteries.mace.clone(),
-                Self::Longsword => langpack::PACK.weapon_masteries.longsword.clone(),
-                Self::Staff => langpack::PACK.weapon_masteries.staff.clone(),
-                Self::Warhammer => langpack::PACK.weapon_masteries.warhammer.clone(),
-                Self::Dagger => langpack::PACK.weapon_masteries.dagger.clone(),
-                Self::Shortbow => langpack::PACK.weapon_masteries.shortbow.clone(),
-                Self::Shortsword => langpack::PACK.weapon_masteries.shortsword.clone(),
+                Self::All => LANGPACK.weapon_masteries.all.clone(),
+                Self::Club => LANGPACK.weapon_masteries.club.clone(),
+                Self::Crossbow => LANGPACK.weapon_masteries.crossbow.clone(),
+                Self::Mace => LANGPACK.weapon_masteries.mace.clone(),
+                Self::Longsword => LANGPACK.weapon_masteries.longsword.clone(),
+                Self::Staff => LANGPACK.weapon_masteries.staff.clone(),
+                Self::Warhammer => LANGPACK.weapon_masteries.warhammer.clone(),
+                Self::Dagger => LANGPACK.weapon_masteries.dagger.clone(),
+                Self::Shortbow => LANGPACK.weapon_masteries.shortbow.clone(),
+                Self::Shortsword => LANGPACK.weapon_masteries.shortsword.clone(),
             }
         )
     }
@@ -241,10 +247,10 @@ impl Display for ArmorMastery {
             f,
             "{}",
             match self {
-                Self::All => langpack::PACK.armor_masteries.all.clone(),
-                Self::Shields => langpack::PACK.armor_masteries.shields.clone(),
-                Self::LeatherArmor => langpack::PACK.armor_masteries.leather_armor.clone(),
-                Self::MithralChainmail => langpack::PACK.armor_masteries.mithral_chainmail.clone(),
+                Self::All => LANGPACK.armor_masteries.all.clone(),
+                Self::Shields => LANGPACK.armor_masteries.shields.clone(),
+                Self::LeatherArmor => LANGPACK.armor_masteries.leather_armor.clone(),
+                Self::MithralChainmail => LANGPACK.armor_masteries.mithral_chainmail.clone(),
             }
         )
     }
@@ -266,16 +272,16 @@ pub enum ClassFeature {
 impl Display for ClassFeature {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let feature = match self {
-            Self::Hauler => langpack::PACK.class_features.hauler.clone(),
-            Self::WeaponMastery => langpack::PACK.class_features.weapon_mastery.clone(),
-            Self::Grit => langpack::PACK.class_features.grit.clone(),
-            Self::TurnUndead => langpack::PACK.class_features.turn_undead.clone(),
-            Self::SpellCasting => langpack::PACK.class_features.spellcasting.clone(),
-            Self::LearningSpells => langpack::PACK.class_features.learning_spells.clone(),
-            Self::Backstab => langpack::PACK.class_features.backstab.clone(),
-            Self::Theivery => langpack::PACK.class_features.theivery.clone(),
-            Self::JackOfAllTrades => langpack::PACK.class_features.jack_of_all_trades.clone(),
-            Self::BeginnersLuck => langpack::PACK.class_features.beginners_luck.clone(),
+            Self::Hauler => LANGPACK.class_features.hauler.clone(),
+            Self::WeaponMastery => LANGPACK.class_features.weapon_mastery.clone(),
+            Self::Grit => LANGPACK.class_features.grit.clone(),
+            Self::TurnUndead => LANGPACK.class_features.turn_undead.clone(),
+            Self::SpellCasting => LANGPACK.class_features.spellcasting.clone(),
+            Self::LearningSpells => LANGPACK.class_features.learning_spells.clone(),
+            Self::Backstab => LANGPACK.class_features.backstab.clone(),
+            Self::Theivery => LANGPACK.class_features.theivery.clone(),
+            Self::JackOfAllTrades => LANGPACK.class_features.jack_of_all_trades.clone(),
+            Self::BeginnersLuck => LANGPACK.class_features.beginners_luck.clone(),
         };
         write!(f, "{}: {}", feature.name, feature.description)
     }
@@ -305,20 +311,20 @@ impl Display for Talent {
             f,
             "{}",
             match self {
-                Self::WeaponMastery => langpack::PACK.talents.weapon_mastery.clone(),
-                Self::PreciseStrike => langpack::PACK.talents.precise_strike.clone(),
-                Self::Trained => langpack::PACK.talents.trained.clone(),
-                Self::ArmorTraining => langpack::PACK.talents.armor_training.clone(),
-                Self::Gifted => langpack::PACK.talents.gifted.clone(),
-                Self::Versatile => langpack::PACK.talents.versatile.clone(),
-                Self::Vigilant => langpack::PACK.talents.vigilant.clone(),
-                Self::DeadlyStab => langpack::PACK.talents.deadly_stab.clone(),
-                Self::GodBlessed => langpack::PACK.talents.god_blessed.clone(),
-                Self::SpellExpert => langpack::PACK.talents.spell_expert.clone(),
-                Self::SkilledCaster => langpack::PACK.talents.skilled_caster.clone(),
-                Self::Devoted => langpack::PACK.talents.devoted.clone(),
-                Self::ThinAirCraft => langpack::PACK.talents.thin_air_craft.clone(),
-                Self::Bookworm => langpack::PACK.talents.bookworm.clone(),
+                Self::WeaponMastery => LANGPACK.talents.weapon_mastery.clone(),
+                Self::PreciseStrike => LANGPACK.talents.precise_strike.clone(),
+                Self::Trained => LANGPACK.talents.trained.clone(),
+                Self::ArmorTraining => LANGPACK.talents.armor_training.clone(),
+                Self::Gifted => LANGPACK.talents.gifted.clone(),
+                Self::Versatile => LANGPACK.talents.versatile.clone(),
+                Self::Vigilant => LANGPACK.talents.vigilant.clone(),
+                Self::DeadlyStab => LANGPACK.talents.deadly_stab.clone(),
+                Self::GodBlessed => LANGPACK.talents.god_blessed.clone(),
+                Self::SpellExpert => LANGPACK.talents.spell_expert.clone(),
+                Self::SkilledCaster => LANGPACK.talents.skilled_caster.clone(),
+                Self::Devoted => LANGPACK.talents.devoted.clone(),
+                Self::ThinAirCraft => LANGPACK.talents.thin_air_craft.clone(),
+                Self::Bookworm => LANGPACK.talents.bookworm.clone(),
             }
         )
     }
