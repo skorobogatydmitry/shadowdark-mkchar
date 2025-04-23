@@ -7,6 +7,7 @@ use clap::Parser;
 use ancestry::Ancestry;
 use class::{Class, ClassAttributes};
 use deities::Deity;
+use inventory::Inventory;
 use rand::{Rng, seq::IteratorRandom};
 use strum::IntoEnumIterator;
 
@@ -15,6 +16,8 @@ mod ancestry;
 mod background;
 mod class;
 mod deities;
+mod inventory;
+
 mod langpack;
 
 enum Dice {
@@ -144,10 +147,12 @@ struct Character {
     background: Background,
     alignment: Alignment,
     deity: Deity,
+    inventory: Inventory,
+    name: String,
 }
 
 impl Character {
-    fn new(stats: Stats, _ancestry: Ancestry, class_attributes: ClassAttributes) -> Self {
+    fn new(stats: Stats, ancestry: Ancestry, class_attributes: ClassAttributes) -> Self {
         let alignment: Alignment = Alignment::iter().choose(&mut rand::rng()).unwrap();
         Self {
             max_hit_points: std::cmp::max(
@@ -157,12 +162,15 @@ impl Character {
             background: Background::iter().choose(&mut rand::rng()).unwrap(),
             deity: Deity::roll(&alignment),
             alignment,
+            inventory: Inventory::new(class_attributes.level),
+            name: langpack::PACK.names.roll(ancestry),
         }
     }
 }
 
 impl Display for Character {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}: {}\n", langpack::PACK.name, self.name)?;
         write!(
             f,
             "{}: {}\n",
@@ -171,7 +179,8 @@ impl Display for Character {
         )?;
         write!(f, "{}\n", self.background)?;
         write!(f, "{}\n", self.alignment)?;
-        write!(f, "{}\n", self.deity)
+        write!(f, "{}\n", self.deity)?;
+        write!(f, "{}", self.inventory)
     }
 }
 

@@ -16,3 +16,7 @@ For M1 from x86 Mac:
 
 > There's an extra step for MacOS users to disable security check.
 > Otherwize, MacOS says the binary is corrupted and refuses to run it.
+
+# NEXT
+
+- choose class using the highest stat

@@ -22,6 +22,7 @@ impl Class {
                 Self::Priest => Dice::D6.roll(),
                 Self::Wizard => Dice::D4.roll(),
             } as u32,
+            level: 1,
             weapon_masteries: match self {
                 Self::Fighter => vec![WeaponMastery::All],
                 Self::Thief => vec![
@@ -135,6 +136,7 @@ impl Display for Class {
 
 pub struct ClassAttributes {
     pub hit_points: u32,
+    pub level: u8,
     pub weapon_masteries: Vec<WeaponMastery>,
     pub armor_masteries: Vec<ArmorMastery>,
     pub class_features: Vec<ClassFeature>,
@@ -187,6 +189,7 @@ impl Default for ClassAttributes {
             class_features: vec![ClassFeature::BeginnersLuck],
             talents: vec![],
             languages: vec![],
+            level: 0,
         }
     }
 }

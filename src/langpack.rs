@@ -1,5 +1,7 @@
 use std::{cell::LazyCell, fs};
 
+use rand::seq::IndexedRandom;
+
 use serde::Deserialize;
 
 use crate::ancestry::Ancestry;
@@ -38,6 +40,13 @@ pub struct LangPack {
     pub backgrounds: Backgrounds,
     pub alignment: String,
     pub alignments: Alignments,
+    pub inventory: String,
+    pub purse: String,
+    pub gold_pieces: String,
+    pub silver_pieces: String,
+    pub gear: Gear,
+    pub name: String,
+    pub names: Names,
 }
 
 impl LangPack {
@@ -196,4 +205,48 @@ pub struct Alignments {
     pub chaotic: String,
     pub neutral: String,
     pub lawful: String,
+}
+
+#[derive(Deserialize)]
+pub struct Gear {
+    pub torch: String,
+    pub dagger: String,
+    pub pole: String,
+    pub shortbow: String,
+    pub arrows: String,
+    pub rope: String,
+    pub flask_of_oil: String,
+    pub crowbar: String,
+    pub iron_spikes: String,
+    pub flint_and_steel: String,
+    pub grappling_hook: String,
+    pub club: String,
+    pub bag_of_caltrops: String,
+}
+
+#[derive(Deserialize)]
+pub struct Names {
+    pub dwarf: Vec<String>,
+    pub elf: Vec<String>,
+    pub goblin: Vec<String>,
+    pub halfling: Vec<String>,
+    pub half_orc: Vec<String>,
+    pub human: Vec<String>,
+    pub kobold: Vec<String>,
+}
+
+impl Names {
+    pub fn roll(&self, ancestry: Ancestry) -> String {
+        match ancestry {
+            Ancestry::Dwarf(_) => self.dwarf.choose(&mut rand::rng()),
+            Ancestry::Elf(_) => self.elf.choose(&mut rand::rng()),
+            Ancestry::Goblin(_) => self.goblin.choose(&mut rand::rng()),
+            Ancestry::Halfling(_) => self.halfling.choose(&mut rand::rng()),
+            Ancestry::HalfOrc(_) => self.half_orc.choose(&mut rand::rng()),
+            Ancestry::Human(_) => self.human.choose(&mut rand::rng()),
+            Ancestry::Kobold(_) => self.kobold.choose(&mut rand::rng()),
+        }
+        .unwrap()
+        .clone()
+    }
 }
