@@ -1485,7 +1485,7 @@ dependencies = [
 
 [[package]]
 name = "shadowdark-mkchar"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "clap",
  "rand 0.9.1",

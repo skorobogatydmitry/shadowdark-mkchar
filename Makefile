@@ -4,6 +4,10 @@ BASENAME = shadowdark-mkchar-${VERSION}
 release-linux:
 	rm -rf ./release
 
+	git diff HEAD --quiet
+	git tag ${VERSION}
+	git push --tags
+
 	mkdir -p release/linux-aarch64/${BASENAME}
 	cross build --release --target aarch64-unknown-linux-gnu 
 	cp ./target/aarch64-unknown-linux-gnu/release/shadowdark-mkchar ./release/linux-aarch64/${BASENAME}/
