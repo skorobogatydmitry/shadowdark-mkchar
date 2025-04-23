@@ -47,6 +47,7 @@ pub struct LangPack {
     pub gear: Gear,
     pub name: String,
     pub names: Names,
+    pub or: String,
 }
 
 impl LangPack {

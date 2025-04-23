@@ -1,10 +1,10 @@
-use std::{collections::BTreeMap, fmt::Display};
+use std::fmt::Display;
 
 use alignment::Alignment;
 use background::Background;
 use clap::Parser;
 
-use ancestry::Ancestry;
+use ancestry::{Ancestry, Language};
 use class::{Class, ClassAttributes};
 use deities::Deity;
 use inventory::Inventory;
@@ -76,23 +76,40 @@ impl Character {
                 + self.stats.modifier(StatKind::Constitution) as i8,
         ) as u32
     }
+
+    pub fn languages(&self) -> Vec<Language> {
+        let mut all_languages = vec![];
+        all_languages.extend(self.ancestry.languages());
+        all_languages.extend(self.class_attributes.languages.clone());
+        all_languages
+    }
 }
 
 impl Display for Character {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}: {}\n", langpack::PACK.name, self.name)?;
-        write!(f, "{}\n", self.ancestry)?;
-        write!(
+        writeln!(f, "{}: {}", langpack::PACK.name, self.name)?;
+        writeln!(f, "{}", self.ancestry)?;
+        writeln!(
             f,
-            "{}: {}\n",
+            "{}: {}",
             langpack::PACK.hit_points,
             self.max_hit_points()
         )?;
-        write!(f, "{}\n", self.background)?;
-        write!(f, "{}\n", self.alignment)?;
-        write!(f, "{}\n", self.deity)?;
-        write!(f, "{}\n", self.stats)?;
-        write!(f, "{}\n", self.class_attributes)?;
+        writeln!(f, "{}", self.background)?;
+        writeln!(f, "{}", self.alignment)?;
+        writeln!(f, "{}", self.deity)?;
+        writeln!(
+            f,
+            "{}: {}",
+            langpack::PACK.language,
+            self.languages()
+                .into_iter()
+                .map(|l| format!("{l}"))
+                .collect::<Vec<String>>()
+                .join(", "),
+        )?;
+        writeln!(f, "{}", self.stats)?;
+        writeln!(f, "{}", self.class_attributes)?;
         write!(f, "{}", self.inventory)
     }
 }

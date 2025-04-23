@@ -46,7 +46,13 @@ impl Stat {
 
 impl Display for Stat {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}: {} ({})", &self.name(), self.modifier(), self.val)
+        write!(
+            f,
+            "{:15}: {:2} ({:2})",
+            &self.name(),
+            self.modifier(),
+            self.val
+        )
     }
 }
 

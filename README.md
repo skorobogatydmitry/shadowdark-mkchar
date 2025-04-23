@@ -20,4 +20,3 @@ For M1 from x86 Mac:
 # NEXT
 
 - choose class using the highest stat
-- move lanuages to the character as a sum

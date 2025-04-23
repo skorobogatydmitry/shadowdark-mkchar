@@ -3,7 +3,7 @@ use std::{fmt::Display, vec};
 use rand::seq::IndexedRandom;
 use strum_macros::EnumIter;
 
-use crate::{Dice, ancestry::LanguageKind, langpack::PACK as LANGPACK};
+use crate::{Dice, ancestry::Language, langpack::PACK as LANGPACK};
 
 #[derive(Debug, Clone, EnumIter)]
 pub enum Class {
@@ -67,9 +67,9 @@ impl Class {
             languages: match self {
                 Class::Priest => vec![
                     vec![
-                        LanguageKind::Celestial,
-                        LanguageKind::Diabolic,
-                        LanguageKind::Primordial,
+                        Language::Celestial,
+                        Language::Diabolic,
+                        Language::Primordial,
                     ]
                     .choose(&mut rand::rng())
                     .unwrap()
@@ -142,7 +142,7 @@ pub struct ClassAttributes {
     pub armor_masteries: Vec<ArmorMastery>,
     pub class_features: Vec<ClassFeature>,
     pub talents: Vec<Talent>,
-    pub languages: Vec<LanguageKind>,
+    pub languages: Vec<Language>,
     pub class: Option<Class>,
 }
 
