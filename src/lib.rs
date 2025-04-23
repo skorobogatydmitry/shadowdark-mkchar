@@ -53,11 +53,11 @@ pub struct Character {
 
 impl Character {
     pub fn new(args: Args) -> Self {
-        let class = ClassArg::from(args.class).choose();
+        let stats = Stats::generate();
+        let class = ClassArg::from(args.class).choose(&stats);
         let class_attributes = class.map(|c| c.fill()).unwrap_or_default();
         let alignment: Alignment = Alignment::iter().choose(&mut rand::rng()).unwrap();
         let ancestry = Ancestry::roll();
-        let stats = Stats::generate();
         Self {
             background: Background::iter().choose(&mut rand::rng()).unwrap(),
             deity: Deity::roll(&alignment),
@@ -129,14 +129,14 @@ pub enum ClassArg {
 }
 
 impl ClassArg {
-    fn choose(self) -> Option<Class> {
+    fn choose(self, stats: &Stats) -> Option<Class> {
         match self {
             Self::Zero => None,
             Self::Fighter => Some(Class::Fighter),
             Self::Thief => Some(Class::Thief),
             Self::Wizard => Some(Class::Wizard),
             Self::Priest => Some(Class::Priest),
-            Self::Any => Some(Class::iter().choose(&mut rand::rng()).unwrap()),
+            Self::Any => Some(stats.suggest_class()), // TODO: allow to have a fully random class
         }
     }
 }

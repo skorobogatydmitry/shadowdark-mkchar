@@ -19,7 +19,7 @@ pub struct LangPack {
     pub wisdom: String,
     pub charisma: String,
     pub ancestry: String,
-    pub ancestries: Vec<Ancestry>,
+    pub ancestries: Ancestries,
     pub language: String,
     pub languages: Languages,
     pub ancestry_features: AncestryFeatures,
@@ -62,7 +62,6 @@ impl LangPack {
 #[derive(Deserialize)]
 pub struct ErrorMessages {
     pub stats_out_of_attempts: String,
-    pub not_all_ancestries: String,
     pub unknown_class_option: String,
 }
 
@@ -82,6 +81,17 @@ pub struct Languages {
     pub celestial: String,
     pub diabolic: String,
     pub primordial: String,
+}
+
+#[derive(Deserialize)]
+pub struct Ancestries {
+    pub dwarf: String,
+    pub kobold: String,
+    pub elf: String,
+    pub goblin: String,
+    pub halfling: String,
+    pub half_orc: String,
+    pub human: String,
 }
 
 #[derive(Deserialize)]
@@ -238,14 +248,15 @@ pub struct Names {
 
 impl Names {
     pub fn roll(&self, ancestry: &Ancestry) -> String {
+        let mut rng = rand::rng();
         match ancestry {
-            Ancestry::Dwarf(_) => self.dwarf.choose(&mut rand::rng()),
-            Ancestry::Elf(_) => self.elf.choose(&mut rand::rng()),
-            Ancestry::Goblin(_) => self.goblin.choose(&mut rand::rng()),
-            Ancestry::Halfling(_) => self.halfling.choose(&mut rand::rng()),
-            Ancestry::HalfOrc(_) => self.half_orc.choose(&mut rand::rng()),
-            Ancestry::Human(_) => self.human.choose(&mut rand::rng()),
-            Ancestry::Kobold(_) => self.kobold.choose(&mut rand::rng()),
+            Ancestry::Dwarf => self.dwarf.choose(&mut rng),
+            Ancestry::Elf => self.elf.choose(&mut rng),
+            Ancestry::Goblin => self.goblin.choose(&mut rng),
+            Ancestry::Halfling => self.halfling.choose(&mut rng),
+            Ancestry::HalfOrc => self.half_orc.choose(&mut rng),
+            Ancestry::Human => self.human.choose(&mut rng),
+            Ancestry::Kobold => self.kobold.choose(&mut rng),
         }
         .unwrap()
         .clone()

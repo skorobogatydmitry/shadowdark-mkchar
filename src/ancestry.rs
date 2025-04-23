@@ -10,35 +10,28 @@ use crate::translation::LANG_PACK;
 #[derive(Debug, EnumIter, Deserialize, Clone)]
 #[serde(rename_all = "snake_case")]
 pub enum Ancestry {
-    Dwarf(String),
-    Kobold(String),
-    Elf(String),
-    Goblin(String),
-    Halfling(String),
-    HalfOrc(String),
-    Human(String),
+    Dwarf,
+    Kobold,
+    Elf,
+    Goblin,
+    Halfling,
+    HalfOrc,
+    Human,
 }
 
 impl Ancestry {
     pub fn roll() -> Self {
-        if Self::iter().len() != LANG_PACK.ancestries.len() {
-            panic!("{}", LANG_PACK.error_messages.not_all_ancestries);
-        }
-        LANG_PACK
-            .ancestries
-            .choose(&mut rand::rng())
-            .unwrap()
-            .clone()
+        Self::iter().choose(&mut rand::rng()).unwrap().clone()
     }
     pub fn languages(&self) -> Vec<Language> {
         match self {
-            Self::Dwarf(_) => vec![Language::Common, Language::Dwarwish],
-            Self::Kobold(_) => vec![Language::Common, Language::Draconic],
-            Self::Elf(_) => vec![Language::Common, Language::Elvish, Language::Sylvan],
-            Self::Goblin(_) => vec![Language::Common, Language::Goblin],
-            Self::Halfling(_) => vec![Language::Common],
-            Self::HalfOrc(_) => vec![Language::Common, Language::Orchish],
-            Self::Human(_) => vec![
+            Self::Dwarf => vec![Language::Common, Language::Dwarwish],
+            Self::Kobold => vec![Language::Common, Language::Draconic],
+            Self::Elf => vec![Language::Common, Language::Elvish, Language::Sylvan],
+            Self::Goblin => vec![Language::Common, Language::Goblin],
+            Self::Halfling => vec![Language::Common],
+            Self::HalfOrc => vec![Language::Common, Language::Orchish],
+            Self::Human => vec![
                 Language::Common,
                 Language::AnyOf(
                     Language::iter()
@@ -57,13 +50,13 @@ impl Ancestry {
 
     fn feature(&self) -> AncestryFeature {
         match self {
-            Self::Dwarf(_) => AncestryFeature::Stout,
-            Self::Kobold(_) => AncestryFeature::Knack,
-            Self::Elf(_) => AncestryFeature::Farsight,
-            Self::Goblin(_) => AncestryFeature::KeenSenses,
-            Self::Halfling(_) => AncestryFeature::Stealthy,
-            Self::HalfOrc(_) => AncestryFeature::Mighty,
-            Self::Human(_) => AncestryFeature::Ambitious,
+            Self::Dwarf => AncestryFeature::Stout,
+            Self::Kobold => AncestryFeature::Knack,
+            Self::Elf => AncestryFeature::Farsight,
+            Self::Goblin => AncestryFeature::KeenSenses,
+            Self::Halfling => AncestryFeature::Stealthy,
+            Self::HalfOrc => AncestryFeature::Mighty,
+            Self::Human => AncestryFeature::Ambitious,
         }
     }
 }
@@ -75,13 +68,13 @@ impl Display for Ancestry {
             "{}: {} | {}",
             LANG_PACK.ancestry,
             match self {
-                Self::Dwarf(val) => val,
-                Self::Elf(val) => val,
-                Self::Goblin(val) => val,
-                Self::HalfOrc(val) => val,
-                Self::Human(val) => val,
-                Self::Kobold(val) => val,
-                Self::Halfling(val) => val,
+                Self::Dwarf => LANG_PACK.ancestries.dwarf.clone(),
+                Self::Elf => LANG_PACK.ancestries.elf.clone(),
+                Self::Goblin => LANG_PACK.ancestries.goblin.clone(),
+                Self::HalfOrc => LANG_PACK.ancestries.half_orc.clone(),
+                Self::Human => LANG_PACK.ancestries.human.clone(),
+                Self::Kobold => LANG_PACK.ancestries.kobold.clone(),
+                Self::Halfling => LANG_PACK.ancestries.halfling.clone(),
             },
             self.feature()
         )
@@ -155,17 +148,8 @@ impl Language {
             Self::Celestial => false,
             Self::Diabolic => false,
             Self::Primordial => false,
-            Self::AnyOf(list) => list.iter().any(|l| l.is_common()),
+            Self::AnyOf(list) => list.iter().all(|l| l.is_common()),
         }
-    }
-
-    fn roll_common() -> Self {
-        let mut rng = rand::rng();
-        let mut result = Language::iter().choose(&mut rng).unwrap();
-        while !result.is_common() {
-            result = Language::iter().choose(&mut rng).unwrap();
-        }
-        result
     }
 }
 

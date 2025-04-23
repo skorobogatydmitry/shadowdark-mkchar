@@ -1,6 +1,10 @@
 use std::{collections::BTreeMap, fmt::Display};
 
-use crate::{Dice, translation::LANG_PACK};
+use rand::prelude::*;
+use rand::seq::IndexedRandom;
+use strum::IntoEnumIterator;
+
+use crate::{Dice, class::Class, translation::LANG_PACK};
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Clone)]
 pub enum StatKind {
@@ -96,6 +100,40 @@ impl Stats {
 
     pub fn modifier(&self, kind: StatKind) -> i8 {
         self.map.get(&kind).map(|s| s.modifier()).unwrap()
+    }
+
+    pub fn suggest_class(&self) -> Class {
+        let random_class = Class::iter().choose(&mut rand::rng()).unwrap();
+        let figher_or_thief = [Class::Thief, Class::Fighter]
+            .choose(&mut rand::rng())
+            .unwrap()
+            .clone();
+
+        let mut sorted_stats = self.map.values().collect::<Vec<&Stat>>();
+        sorted_stats.sort_by(|x, y| x.val.cmp(&y.val));
+        match sorted_stats.pop().unwrap().kind {
+            // highest stat
+            StatKind::Strength => Class::Fighter,
+            StatKind::Dexterity => figher_or_thief,
+            StatKind::Intellegence => Class::Wizard,
+            StatKind::Wisdom => Class::Priest,
+            StatKind::Constitution => match sorted_stats.pop().unwrap().kind {
+                StatKind::Strength => Class::Fighter,
+                StatKind::Dexterity => figher_or_thief,
+                StatKind::Intellegence => Class::Wizard,
+                StatKind::Wisdom => Class::Priest,
+                StatKind::Charisma => random_class,
+                StatKind::Constitution => panic!("2 x {}", LANG_PACK.constitution),
+            },
+            StatKind::Charisma => match sorted_stats.pop().unwrap().kind {
+                StatKind::Strength => figher_or_thief,
+                StatKind::Dexterity => figher_or_thief,
+                StatKind::Intellegence => Class::Wizard,
+                StatKind::Wisdom => Class::Priest,
+                StatKind::Constitution => random_class,
+                StatKind::Charisma => panic!("2 x {}", LANG_PACK.charisma),
+            },
+        }
     }
 }
 
