@@ -2,7 +2,7 @@ use std::fmt::Display;
 
 use strum_macros::EnumIter;
 
-use crate::langpack;
+use crate::translation::LANG_PACK;
 
 #[derive(Debug, EnumIter)]
 pub enum Background {
@@ -33,28 +33,28 @@ impl Display for Background {
         write!(
             f,
             "{}: {}",
-            langpack::PACK.background,
+            LANG_PACK.background,
             match self {
-                Self::Urchin => langpack::PACK.backgrounds.urchin.clone(),
-                Self::Wanted => langpack::PACK.backgrounds.wanted.clone(),
-                Self::CultInitiate => langpack::PACK.backgrounds.cult_initiate.clone(),
-                Self::ThievesGuild => langpack::PACK.backgrounds.thieves_guild.clone(),
-                Self::Banished => langpack::PACK.backgrounds.banished.clone(),
-                Self::Orphaned => langpack::PACK.backgrounds.orphaned.clone(),
-                Self::WizardsApprentice => langpack::PACK.backgrounds.wizards_apprentice.clone(),
-                Self::Jeweler => langpack::PACK.backgrounds.jeweler.clone(),
-                Self::Herbalist => langpack::PACK.backgrounds.herbalist.clone(),
-                Self::Barbarian => langpack::PACK.backgrounds.barbarian.clone(),
-                Self::Mercenary => langpack::PACK.backgrounds.mercenary.clone(),
-                Self::Sailor => langpack::PACK.backgrounds.sailor.clone(),
-                Self::Alcolyte => langpack::PACK.backgrounds.alcolyte.clone(),
-                Self::Soldier => langpack::PACK.backgrounds.soldier.clone(),
-                Self::Ranger => langpack::PACK.backgrounds.ranger.clone(),
-                Self::Scout => langpack::PACK.backgrounds.scout.clone(),
-                Self::Minstrel => langpack::PACK.backgrounds.minstrel.clone(),
-                Self::Scholar => langpack::PACK.backgrounds.scholar.clone(),
-                Self::Nobel => langpack::PACK.backgrounds.nobel.clone(),
-                Self::Chirurgeon => langpack::PACK.backgrounds.chirurgeon.clone(),
+                Self::Urchin => LANG_PACK.backgrounds.urchin.clone(),
+                Self::Wanted => LANG_PACK.backgrounds.wanted.clone(),
+                Self::CultInitiate => LANG_PACK.backgrounds.cult_initiate.clone(),
+                Self::ThievesGuild => LANG_PACK.backgrounds.thieves_guild.clone(),
+                Self::Banished => LANG_PACK.backgrounds.banished.clone(),
+                Self::Orphaned => LANG_PACK.backgrounds.orphaned.clone(),
+                Self::WizardsApprentice => LANG_PACK.backgrounds.wizards_apprentice.clone(),
+                Self::Jeweler => LANG_PACK.backgrounds.jeweler.clone(),
+                Self::Herbalist => LANG_PACK.backgrounds.herbalist.clone(),
+                Self::Barbarian => LANG_PACK.backgrounds.barbarian.clone(),
+                Self::Mercenary => LANG_PACK.backgrounds.mercenary.clone(),
+                Self::Sailor => LANG_PACK.backgrounds.sailor.clone(),
+                Self::Alcolyte => LANG_PACK.backgrounds.alcolyte.clone(),
+                Self::Soldier => LANG_PACK.backgrounds.soldier.clone(),
+                Self::Ranger => LANG_PACK.backgrounds.ranger.clone(),
+                Self::Scout => LANG_PACK.backgrounds.scout.clone(),
+                Self::Minstrel => LANG_PACK.backgrounds.minstrel.clone(),
+                Self::Scholar => LANG_PACK.backgrounds.scholar.clone(),
+                Self::Nobel => LANG_PACK.backgrounds.nobel.clone(),
+                Self::Chirurgeon => LANG_PACK.backgrounds.chirurgeon.clone(),
             }
         )
     }

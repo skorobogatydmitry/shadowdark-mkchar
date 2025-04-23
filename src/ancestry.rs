@@ -5,7 +5,7 @@ use serde::Deserialize;
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
-use crate::langpack::PACK as LANGPACK;
+use crate::translation::LANG_PACK;
 
 #[derive(Debug, EnumIter, Deserialize, Clone)]
 #[serde(rename_all = "snake_case")]
@@ -21,10 +21,10 @@ pub enum Ancestry {
 
 impl Ancestry {
     pub fn roll() -> Self {
-        if Self::iter().len() != LANGPACK.ancestries.len() {
-            panic!("{}", LANGPACK.error_messages.not_all_ancestries);
+        if Self::iter().len() != LANG_PACK.ancestries.len() {
+            panic!("{}", LANG_PACK.error_messages.not_all_ancestries);
         }
-        LANGPACK
+        LANG_PACK
             .ancestries
             .choose(&mut rand::rng())
             .unwrap()
@@ -73,7 +73,7 @@ impl Display for Ancestry {
         write!(
             f,
             "{}: {} | {}",
-            LANGPACK.ancestry,
+            LANG_PACK.ancestry,
             match self {
                 Self::Dwarf(val) => val,
                 Self::Elf(val) => val,
@@ -94,25 +94,25 @@ impl Display for Language {
             f,
             "{}",
             match self {
-                Language::Common => LANGPACK.languages.common.clone(),
-                Language::Dwarwish => LANGPACK.languages.dwarwish.clone(),
-                Language::Elvish => LANGPACK.languages.elvish.clone(),
-                Language::Sylvan => LANGPACK.languages.sylvan.clone(),
-                Language::Goblin => LANGPACK.languages.goblin.clone(),
-                Language::Orchish => LANGPACK.languages.orchish.clone(),
-                Language::Draconic => LANGPACK.languages.draconic.clone(),
-                Language::Giant => LANGPACK.languages.giant.clone(),
-                Language::Merran => LANGPACK.languages.merran.clone(),
-                Language::Reptillian => LANGPACK.languages.reptillian.clone(),
-                Language::Thanian => LANGPACK.languages.thanian.clone(),
-                Language::Celestial => LANGPACK.languages.celestial.clone(),
-                Language::Diabolic => LANGPACK.languages.diabolic.clone(),
-                Language::Primordial => LANGPACK.languages.primordial.clone(),
+                Language::Common => LANG_PACK.languages.common.clone(),
+                Language::Dwarwish => LANG_PACK.languages.dwarwish.clone(),
+                Language::Elvish => LANG_PACK.languages.elvish.clone(),
+                Language::Sylvan => LANG_PACK.languages.sylvan.clone(),
+                Language::Goblin => LANG_PACK.languages.goblin.clone(),
+                Language::Orchish => LANG_PACK.languages.orchish.clone(),
+                Language::Draconic => LANG_PACK.languages.draconic.clone(),
+                Language::Giant => LANG_PACK.languages.giant.clone(),
+                Language::Merran => LANG_PACK.languages.merran.clone(),
+                Language::Reptillian => LANG_PACK.languages.reptillian.clone(),
+                Language::Thanian => LANG_PACK.languages.thanian.clone(),
+                Language::Celestial => LANG_PACK.languages.celestial.clone(),
+                Language::Diabolic => LANG_PACK.languages.diabolic.clone(),
+                Language::Primordial => LANG_PACK.languages.primordial.clone(),
                 Language::AnyOf(list) => list
                     .iter()
                     .map(|l| format!("{l}"))
                     .collect::<Vec<String>>()
-                    .join(&format!(" {} ", LANGPACK.or)),
+                    .join(&format!(" {} ", LANG_PACK.or)),
             }
         )
     }
@@ -182,13 +182,13 @@ enum AncestryFeature {
 impl Display for AncestryFeature {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let translation = match self {
-            Self::Stout => LANGPACK.ancestry_features.stout.clone(),
-            Self::Farsight => LANGPACK.ancestry_features.farsight.clone(),
-            Self::KeenSenses => LANGPACK.ancestry_features.keen_senses.clone(),
-            Self::Mighty => LANGPACK.ancestry_features.mighty.clone(),
-            Self::Stealthy => LANGPACK.ancestry_features.stealthy.clone(),
-            Self::Ambitious => LANGPACK.ancestry_features.ambitious.clone(),
-            Self::Knack => LANGPACK.ancestry_features.knack.clone(),
+            Self::Stout => LANG_PACK.ancestry_features.stout.clone(),
+            Self::Farsight => LANG_PACK.ancestry_features.farsight.clone(),
+            Self::KeenSenses => LANG_PACK.ancestry_features.keen_senses.clone(),
+            Self::Mighty => LANG_PACK.ancestry_features.mighty.clone(),
+            Self::Stealthy => LANG_PACK.ancestry_features.stealthy.clone(),
+            Self::Ambitious => LANG_PACK.ancestry_features.ambitious.clone(),
+            Self::Knack => LANG_PACK.ancestry_features.knack.clone(),
         };
         write!(f, "{}: {}", translation.name, translation.description)
     }

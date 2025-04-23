@@ -1,6 +1,6 @@
 use std::{collections::BTreeMap, fmt::Display};
 
-use crate::{Dice, langpack::PACK as LANGPACK};
+use crate::{Dice, translation::LANG_PACK};
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Clone)]
 pub enum StatKind {
@@ -34,12 +34,12 @@ impl Stat {
 
     fn name(&self) -> String {
         match self.kind {
-            StatKind::Strength => LANGPACK.strength.clone(),
-            StatKind::Dexterity => LANGPACK.dexterity.clone(),
-            StatKind::Constitution => LANGPACK.constitution.clone(),
-            StatKind::Intellegence => LANGPACK.intellegence.clone(),
-            StatKind::Wisdom => LANGPACK.wisdom.clone(),
-            StatKind::Charisma => LANGPACK.charisma.clone(),
+            StatKind::Strength => LANG_PACK.strength.clone(),
+            StatKind::Dexterity => LANG_PACK.dexterity.clone(),
+            StatKind::Constitution => LANG_PACK.constitution.clone(),
+            StatKind::Intellegence => LANG_PACK.intellegence.clone(),
+            StatKind::Wisdom => LANG_PACK.wisdom.clone(),
+            StatKind::Charisma => LANG_PACK.charisma.clone(),
         }
     }
 }
@@ -87,7 +87,7 @@ impl Stats {
         }
 
         if attrs.iter().map(|a| a.val).max().unwrap() < 14 {
-            panic!("{}", LANGPACK.error_messages.stats_out_of_attempts);
+            panic!("{}", LANG_PACK.error_messages.stats_out_of_attempts);
         }
 
         let map = attrs.into_iter().map(|a| (a.kind.clone(), a)).collect();
@@ -104,7 +104,7 @@ impl Display for Stats {
         write!(
             f,
             "{}:\n  {}",
-            LANGPACK.stats,
+            LANG_PACK.stats,
             self.map
                 .values()
                 .map(|a| format!("{a}"))

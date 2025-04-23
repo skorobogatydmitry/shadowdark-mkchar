@@ -2,7 +2,7 @@ use std::fmt::Display;
 
 use rand::seq::IndexedRandom;
 
-use crate::{Dice, langpack};
+use crate::{Dice, translation::LANG_PACK};
 
 pub struct Inventory {
     purse: Purse,
@@ -27,7 +27,7 @@ impl Inventory {
 
 impl Display for Inventory {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}:\n", langpack::PACK.inventory)?;
+        write!(f, "{}:\n", LANG_PACK.inventory)?;
         for e in &self.equipment {
             write!(f, "  {}\n", e)?;
         }
@@ -59,11 +59,7 @@ impl Display for Purse {
         write!(
             f,
             "{}: {} - {}, {} - {}",
-            langpack::PACK.purse,
-            langpack::PACK.gold_pieces,
-            self.gold,
-            langpack::PACK.silver_pieces,
-            self.silver
+            LANG_PACK.purse, LANG_PACK.gold_pieces, self.gold, LANG_PACK.silver_pieces, self.silver
         )
     }
 }
@@ -119,19 +115,21 @@ impl Gear {
 impl Display for Gear {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Torch => write!(f, "{}", langpack::PACK.gear.torch),
-            Self::Dagger => write!(f, "{}", langpack::PACK.gear.dagger),
-            Self::Pole => write!(f, "{}", langpack::PACK.gear.pole),
-            Self::Shortbow => write!(f, "{}", langpack::PACK.gear.shortbow),
-            Self::Arrows(count) => write!(f, "{} ({})", langpack::PACK.gear.arrows, count),
-            Self::Rope(len) => write!(f, "{} ({}′)", langpack::PACK.gear.rope, len),
-            Self::FlaskOfOil => write!(f, "{}", langpack::PACK.gear.flask_of_oil),
-            Self::Crowbar => write!(f, "{}", langpack::PACK.gear.crowbar),
-            Self::IronSpikes(count) => write!(f, "{} ({})", langpack::PACK.gear.iron_spikes, count),
-            Self::FlintAndSteel => write!(f, "{}", langpack::PACK.gear.flint_and_steel),
-            Self::GrapplingHook => write!(f, "{}", langpack::PACK.gear.grappling_hook),
-            Self::Club => write!(f, "{}", langpack::PACK.gear.club),
-            Self::BagOfCaltrops => write!(f, "{}", langpack::PACK.gear.bag_of_caltrops),
+            Self::Torch => write!(f, "{}", LANG_PACK.gear.torch),
+            Self::Dagger => write!(f, "{}", LANG_PACK.gear.dagger),
+            Self::Pole => write!(f, "{}", LANG_PACK.gear.pole),
+            Self::Shortbow => write!(f, "{}", LANG_PACK.gear.shortbow),
+            Self::Arrows(count) => write!(f, "{} ({})", LANG_PACK.gear.arrows, count),
+            Self::Rope(len) => write!(f, "{} ({}′)", LANG_PACK.gear.rope, len),
+            Self::FlaskOfOil => write!(f, "{}", LANG_PACK.gear.flask_of_oil),
+            Self::Crowbar => write!(f, "{}", LANG_PACK.gear.crowbar),
+            Self::IronSpikes(count) => {
+                write!(f, "{} ({})", LANG_PACK.gear.iron_spikes, count)
+            }
+            Self::FlintAndSteel => write!(f, "{}", LANG_PACK.gear.flint_and_steel),
+            Self::GrapplingHook => write!(f, "{}", LANG_PACK.gear.grappling_hook),
+            Self::Club => write!(f, "{}", LANG_PACK.gear.club),
+            Self::BagOfCaltrops => write!(f, "{}", LANG_PACK.gear.bag_of_caltrops),
         }
     }
 }

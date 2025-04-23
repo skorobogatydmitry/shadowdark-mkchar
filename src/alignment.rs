@@ -2,7 +2,7 @@ use std::fmt::Display;
 
 use strum_macros::EnumIter;
 
-use crate::langpack;
+use crate::translation::LANG_PACK;
 
 #[derive(Debug, EnumIter, PartialEq, Eq)]
 pub enum Alignment {
@@ -16,11 +16,11 @@ impl Display for Alignment {
         write!(
             f,
             "{}: {}",
-            langpack::PACK.alignment,
+            LANG_PACK.alignment,
             match self {
-                Self::Chaotic => langpack::PACK.alignments.chaotic.clone(),
-                Self::Neutral => langpack::PACK.alignments.neutral.clone(),
-                Self::Lawful => langpack::PACK.alignments.lawful.clone(),
+                Self::Chaotic => LANG_PACK.alignments.chaotic.clone(),
+                Self::Neutral => LANG_PACK.alignments.neutral.clone(),
+                Self::Lawful => LANG_PACK.alignments.lawful.clone(),
             }
         )
     }

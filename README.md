@@ -20,3 +20,5 @@ For M1 from x86 Mac:
 # NEXT
 
 - choose class using the highest stat
+- print to a PDF/HTML template
+- use single RNG

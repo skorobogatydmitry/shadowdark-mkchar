@@ -4,7 +4,7 @@ use rand::seq::IteratorRandom;
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
-use crate::{alignment::Alignment, langpack};
+use crate::{alignment::Alignment, translation::LANG_PACK};
 
 #[derive(Debug, EnumIter)]
 pub enum Deities {
@@ -47,14 +47,14 @@ impl Deity {
         }
         Self {
             name: match kind {
-                Deities::SaintTerragnis => langpack::PACK.deities.saint_terragnis.clone(),
-                Deities::Gede => langpack::PACK.deities.gede.clone(),
-                Deities::MadeeraTheCovenant => langpack::PACK.deities.madeera_the_covenant.clone(),
-                Deities::Ord => langpack::PACK.deities.ord.clone(),
-                Deities::Memnon => langpack::PACK.deities.memnon.clone(),
-                Deities::Ramlaat => langpack::PACK.deities.ramlaat.clone(),
-                Deities::ShuneTheVile => langpack::PACK.deities.shune_the_vile.clone(),
-                Deities::TheLost => langpack::PACK.deities.the_lost.clone(),
+                Deities::SaintTerragnis => LANG_PACK.deities.saint_terragnis.clone(),
+                Deities::Gede => LANG_PACK.deities.gede.clone(),
+                Deities::MadeeraTheCovenant => LANG_PACK.deities.madeera_the_covenant.clone(),
+                Deities::Ord => LANG_PACK.deities.ord.clone(),
+                Deities::Memnon => LANG_PACK.deities.memnon.clone(),
+                Deities::Ramlaat => LANG_PACK.deities.ramlaat.clone(),
+                Deities::ShuneTheVile => LANG_PACK.deities.shune_the_vile.clone(),
+                Deities::TheLost => LANG_PACK.deities.the_lost.clone(),
             },
             kind,
         }
@@ -63,7 +63,7 @@ impl Deity {
 
 impl Display for Deity {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}: {}", langpack::PACK.deity, self.name)?;
+        write!(f, "{}: {}", LANG_PACK.deity, self.name)?;
         if let Some(a) = self.kind.alignment() {
             write!(f, " ({})", a)?;
         }

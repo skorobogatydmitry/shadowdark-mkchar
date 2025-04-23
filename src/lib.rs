@@ -11,6 +11,7 @@ use inventory::Inventory;
 use rand::{Rng, seq::IteratorRandom};
 use stats::{StatKind, Stats};
 use strum::IntoEnumIterator;
+use translation::LANG_PACK;
 
 mod alignment;
 mod ancestry;
@@ -20,7 +21,7 @@ mod deities;
 mod inventory;
 mod stats;
 
-mod langpack;
+mod translation;
 
 enum Dice {
     D6,
@@ -62,7 +63,7 @@ impl Character {
             deity: Deity::roll(&alignment),
             alignment,
             inventory: Inventory::new(class_attributes.level),
-            name: langpack::PACK.names.roll(&ancestry),
+            name: LANG_PACK.names.roll(&ancestry),
             stats,
             ancestry,
             class_attributes,
@@ -87,21 +88,16 @@ impl Character {
 
 impl Display for Character {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        writeln!(f, "{}: {}", langpack::PACK.name, self.name)?;
+        writeln!(f, "{}: {}", LANG_PACK.name, self.name)?;
         writeln!(f, "{}", self.ancestry)?;
-        writeln!(
-            f,
-            "{}: {}",
-            langpack::PACK.hit_points,
-            self.max_hit_points()
-        )?;
+        writeln!(f, "{}: {}", LANG_PACK.hit_points, self.max_hit_points())?;
         writeln!(f, "{}", self.background)?;
         writeln!(f, "{}", self.alignment)?;
         writeln!(f, "{}", self.deity)?;
         writeln!(
             f,
             "{}: {}",
-            langpack::PACK.language,
+            LANG_PACK.language,
             self.languages()
                 .into_iter()
                 .map(|l| format!("{l}"))
@@ -151,12 +147,12 @@ impl Display for ClassArg {
             f,
             "{}",
             match self {
-                Self::Zero => langpack::PACK.class_args.zero.clone(),
-                Self::Any => langpack::PACK.class_args.any.clone(),
-                Self::Fighter => langpack::PACK.class_args.fighter.clone(),
-                Self::Thief => langpack::PACK.class_args.thief.clone(),
-                Self::Wizard => langpack::PACK.class_args.wizard.clone(),
-                Self::Priest => langpack::PACK.class_args.priest.clone(),
+                Self::Zero => LANG_PACK.class_args.zero.clone(),
+                Self::Any => LANG_PACK.class_args.any.clone(),
+                Self::Fighter => LANG_PACK.class_args.fighter.clone(),
+                Self::Thief => LANG_PACK.class_args.thief.clone(),
+                Self::Wizard => LANG_PACK.class_args.wizard.clone(),
+                Self::Priest => LANG_PACK.class_args.priest.clone(),
             }
         )
     }
@@ -164,23 +160,22 @@ impl Display for ClassArg {
 
 impl From<String> for ClassArg {
     fn from(value: String) -> Self {
-        if &value == langpack::PACK.class_args.zero.as_str() {
+        if &value == LANG_PACK.class_args.zero.as_str() {
             Self::Zero
-        } else if value == langpack::PACK.class_args.any.as_str() || value == String::default() {
+        } else if value == LANG_PACK.class_args.any.as_str() || value == String::default() {
             Self::Any
-        } else if value == langpack::PACK.class_args.fighter.as_str() {
+        } else if value == LANG_PACK.class_args.fighter.as_str() {
             Self::Fighter
-        } else if value == langpack::PACK.class_args.thief.as_str() {
+        } else if value == LANG_PACK.class_args.thief.as_str() {
             Self::Thief
-        } else if value == langpack::PACK.class_args.wizard.as_str() {
+        } else if value == LANG_PACK.class_args.wizard.as_str() {
             Self::Wizard
-        } else if value == langpack::PACK.class_args.priest.as_str() {
+        } else if value == LANG_PACK.class_args.priest.as_str() {
             Self::Priest
         } else {
             panic!(
                 "{}: `{}'",
-                langpack::PACK.error_messages.unknown_class_option,
-                value
+                LANG_PACK.error_messages.unknown_class_option, value
             );
         }
     }

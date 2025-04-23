@@ -6,7 +6,7 @@ use serde::Deserialize;
 
 use crate::ancestry::Ancestry;
 
-pub const PACK: LazyCell<LangPack> = LazyCell::new(|| LangPack::load());
+pub const LANG_PACK: LazyCell<LangPack> = LazyCell::new(|| LangPack::load());
 
 #[derive(Deserialize)]
 pub struct LangPack {
