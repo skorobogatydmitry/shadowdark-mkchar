@@ -40,7 +40,6 @@ impl Dice {
 }
 
 pub struct Character {
-    max_hit_points: u32,
     background: Background,
     alignment: Alignment,
     deity: Deity,
@@ -59,10 +58,6 @@ impl Character {
         let ancestry = Ancestry::roll();
         let stats = Stats::generate();
         Self {
-            max_hit_points: std::cmp::max(
-                1,
-                class_attributes.hit_points as i8 + stats.modifier(StatKind::Constitution) as i8,
-            ) as u32,
             background: Background::iter().choose(&mut rand::rng()).unwrap(),
             deity: Deity::roll(&alignment),
             alignment,
@@ -72,6 +67,14 @@ impl Character {
             ancestry,
             class_attributes,
         }
+    }
+
+    pub fn max_hit_points(&self) -> u32 {
+        std::cmp::max(
+            1,
+            self.class_attributes.hit_points as i8
+                + self.stats.modifier(StatKind::Constitution) as i8,
+        ) as u32
     }
 }
 
@@ -83,7 +86,7 @@ impl Display for Character {
             f,
             "{}: {}\n",
             langpack::PACK.hit_points,
-            self.max_hit_points
+            self.max_hit_points()
         )?;
         write!(f, "{}\n", self.background)?;
         write!(f, "{}\n", self.alignment)?;
