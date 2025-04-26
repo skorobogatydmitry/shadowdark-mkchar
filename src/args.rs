@@ -4,16 +4,26 @@ use clap::{Parser, ValueEnum};
 use rand::seq::IteratorRandom;
 use strum::IntoEnumIterator;
 
-use crate::{ancestry::Ancestry, class::Class, stats::Stats};
+use crate::{
+    ancestry::{Ancestry, Language},
+    class::Class,
+    stats::Stats,
+};
 
 /// Shadowdark quick characters generator with custom translation support
 #[derive(Debug, Parser)]
 pub struct Args {
+    /// character's class
     #[arg(short, long, value_enum, default_value_t = ClassArg::Suggest)]
     pub class: ClassArg,
+
+    /// character's ancestry, random by default
     #[arg(short, long, value_enum)]
-    /// ancestry of the character, random by default
     pub ancestry: Option<Ancestry>,
+
+    /// language for human's ancestry, a random comon language will be chosen if omit
+    #[arg(short, long, value_enum)]
+    pub language: Option<Language>,
 }
 
 #[derive(Debug, Clone, ValueEnum)]

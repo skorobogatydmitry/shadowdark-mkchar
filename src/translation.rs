@@ -48,7 +48,7 @@ pub struct LangPack {
     pub gear: Gear,
     pub name: String,
     pub names: Names,
-    pub or: String,
+    pub available: String,
 }
 
 impl LangPack {
@@ -85,6 +85,7 @@ impl LangPack {
 #[derive(Deserialize)]
 pub struct ErrorMessages {
     pub stats_out_of_attempts: String,
+    pub non_common_language: String,
 }
 
 #[derive(Deserialize)]

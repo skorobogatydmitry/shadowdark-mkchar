@@ -8,7 +8,38 @@ use strum_macros::EnumIter;
 
 use crate::translation::LANG_PACK;
 
-#[derive(Debug, EnumIter, Deserialize, Clone, ValueEnum)]
+pub struct AncestryAttributes {
+    pub ancestry: Ancestry,
+    pub languages: Vec<Language>, // is only used for humans so far
+}
+
+impl AncestryAttributes {
+    pub fn new(ancestry: Ancestry, chosen_language: Option<Language>) -> Self {
+        Self {
+            languages: match ancestry {
+                Ancestry::Dwarf => vec![Language::Common, Language::Dwarwish],
+                Ancestry::Kobold => vec![Language::Common, Language::Draconic],
+                Ancestry::Elf => vec![Language::Common, Language::Elvish, Language::Sylvan],
+                Ancestry::Goblin => vec![Language::Common, Language::Goblin],
+                Ancestry::Halfling => vec![Language::Common],
+                Ancestry::HalfOrc => vec![Language::Common, Language::Orchish],
+                Ancestry::Human => vec![
+                    Language::Common,
+                    chosen_language.unwrap_or(
+                        ancestry
+                            .allowed_extra_languages()
+                            .choose(&mut rand::rng())
+                            .unwrap()
+                            .clone(),
+                    ),
+                ],
+            },
+            ancestry,
+        }
+    }
+}
+
+#[derive(Debug, EnumIter, Deserialize, Clone, ValueEnum, PartialEq)]
 #[serde(rename_all = "snake_case")]
 pub enum Ancestry {
     Dwarf,
@@ -25,31 +56,6 @@ impl Ancestry {
         Self::iter().choose(&mut rand::rng()).unwrap().clone()
     }
 
-    pub fn languages(&self) -> Vec<Language> {
-        match self {
-            Self::Dwarf => vec![Language::Common, Language::Dwarwish],
-            Self::Kobold => vec![Language::Common, Language::Draconic],
-            Self::Elf => vec![Language::Common, Language::Elvish, Language::Sylvan],
-            Self::Goblin => vec![Language::Common, Language::Goblin],
-            Self::Halfling => vec![Language::Common],
-            Self::HalfOrc => vec![Language::Common, Language::Orchish],
-            Self::Human => vec![
-                Language::Common,
-                Language::AnyOf(
-                    Language::iter()
-                        .filter_map(|l| {
-                            if l.is_common() && l != Language::Common {
-                                Some(l)
-                            } else {
-                                None
-                            }
-                        })
-                        .collect(),
-                ),
-            ],
-        }
-    }
-
     fn feature(&self) -> AncestryFeature {
         match self {
             Self::Dwarf => AncestryFeature::Stout,
@@ -61,6 +67,29 @@ impl Ancestry {
             Self::Human => AncestryFeature::Ambitious,
         }
     }
+
+    // for human's trait
+    pub fn allowed_extra_languages(&self) -> Vec<Language> {
+        if *self == Self::Human {
+            Language::iter()
+                .filter(|l| l.is_common() && *l != Language::Common)
+                .collect()
+        } else {
+            vec![]
+        }
+    }
+
+    pub fn name(&self) -> String {
+        match self {
+            Self::Dwarf => LANG_PACK.ancestries.dwarf.clone(),
+            Self::Elf => LANG_PACK.ancestries.elf.clone(),
+            Self::Goblin => LANG_PACK.ancestries.goblin.clone(),
+            Self::HalfOrc => LANG_PACK.ancestries.half_orc.clone(),
+            Self::Human => LANG_PACK.ancestries.human.clone(),
+            Self::Kobold => LANG_PACK.ancestries.kobold.clone(),
+            Self::Halfling => LANG_PACK.ancestries.halfling.clone(),
+        }
+    }
 }
 
 impl Display for Ancestry {
@@ -69,15 +98,7 @@ impl Display for Ancestry {
             f,
             "{}: {} | {}",
             LANG_PACK.ancestry,
-            match self {
-                Self::Dwarf => LANG_PACK.ancestries.dwarf.clone(),
-                Self::Elf => LANG_PACK.ancestries.elf.clone(),
-                Self::Goblin => LANG_PACK.ancestries.goblin.clone(),
-                Self::HalfOrc => LANG_PACK.ancestries.half_orc.clone(),
-                Self::Human => LANG_PACK.ancestries.human.clone(),
-                Self::Kobold => LANG_PACK.ancestries.kobold.clone(),
-                Self::Halfling => LANG_PACK.ancestries.halfling.clone(),
-            },
+            self.name(),
             self.feature()
         )
     }
@@ -103,17 +124,12 @@ impl Display for Language {
                 Language::Celestial => LANG_PACK.languages.celestial.clone(),
                 Language::Diabolic => LANG_PACK.languages.diabolic.clone(),
                 Language::Primordial => LANG_PACK.languages.primordial.clone(),
-                Language::AnyOf(list) => list
-                    .iter()
-                    .map(|l| format!("{l}"))
-                    .collect::<Vec<String>>()
-                    .join(&format!(" {} ", LANG_PACK.or)),
             }
         )
     }
 }
 
-#[derive(Debug, Deserialize, EnumIter, PartialEq, Clone)]
+#[derive(Debug, Deserialize, EnumIter, PartialEq, Clone, ValueEnum)]
 #[serde(rename_all = "snake_case")]
 pub enum Language {
     Common,
@@ -130,11 +146,10 @@ pub enum Language {
     Celestial,
     Diabolic,
     Primordial,
-    AnyOf(Vec<Self>),
 }
 
 impl Language {
-    fn is_common(&self) -> bool {
+    pub fn is_common(&self) -> bool {
         match self {
             Self::Common => true,
             Self::Dwarwish => true,
@@ -150,7 +165,6 @@ impl Language {
             Self::Celestial => false,
             Self::Diabolic => false,
             Self::Primordial => false,
-            Self::AnyOf(list) => list.iter().all(|l| l.is_common()),
         }
     }
 }

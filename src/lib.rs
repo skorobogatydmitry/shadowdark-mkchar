@@ -4,7 +4,8 @@ use alignment::Alignment;
 use args::Args;
 use background::Background;
 
-use ancestry::{Ancestry, Language};
+use ancestry::{Ancestry, AncestryAttributes, Language};
+use clap::CommandFactory;
 use class::ClassAttributes;
 use deities::Deity;
 use inventory::Inventory;
@@ -49,7 +50,7 @@ pub struct Character {
     inventory: Inventory,
     name: String,
     stats: Stats,
-    ancestry: Ancestry,
+    ancestry_attributes: AncestryAttributes,
     class_attributes: ClassAttributes,
 }
 
@@ -60,14 +61,40 @@ impl Character {
         let class_attributes = class.map(|c| c.fill()).unwrap_or_default();
         let alignment: Alignment = Alignment::iter().choose(&mut rand::rng()).unwrap();
         let ancestry = args.ancestry.unwrap_or(Ancestry::roll());
+        // TODO: find a better place
+        if args
+            .language
+            .as_ref()
+            .map(|l| !ancestry.allowed_extra_languages().contains(l))
+            .unwrap_or(false)
+        {
+            Args::command()
+                .error(
+                    clap::error::ErrorKind::InvalidValue,
+                    format!(
+                        "{} {}. {}: [{}]",
+                        LANG_PACK.error_messages.non_common_language,
+                        ancestry.name(),
+                        LANG_PACK.available,
+                        ancestry
+                            .allowed_extra_languages()
+                            .iter()
+                            .map(|l| format!("{l}"))
+                            .collect::<Vec<String>>()
+                            .join(", ")
+                    ),
+                )
+                .exit();
+        }
+        let ancestry_attributes = AncestryAttributes::new(ancestry, args.language);
         Self {
             background: Background::iter().choose(&mut rand::rng()).unwrap(),
             deity: Deity::roll(&alignment),
             alignment,
             inventory: Inventory::new(class_attributes.level),
-            name: LANG_PACK.names.roll(&ancestry),
+            name: LANG_PACK.names.roll(&ancestry_attributes.ancestry),
             stats,
-            ancestry,
+            ancestry_attributes,
             class_attributes,
         }
     }
@@ -82,7 +109,8 @@ impl Character {
 
     pub fn languages(&self) -> Vec<Language> {
         let mut all_languages = vec![];
-        all_languages.extend(self.ancestry.languages());
+        // TODO: avoid clonning, just return joined references
+        all_languages.extend(self.ancestry_attributes.languages.clone());
         all_languages.extend(self.class_attributes.languages.clone());
         all_languages
     }
@@ -91,7 +119,7 @@ impl Character {
 impl Display for Character {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         writeln!(f, "{}: {}", LANG_PACK.name, self.name)?;
-        writeln!(f, "{}", self.ancestry)?;
+        writeln!(f, "{}", self.ancestry_attributes.ancestry)?;
         writeln!(f, "{}: {}", LANG_PACK.hit_points, self.max_hit_points())?;
         writeln!(f, "{}", self.background)?;
         writeln!(f, "{}", self.alignment)?;
