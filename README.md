@@ -15,9 +15,9 @@ Features:
 ## Translations
 
 The tool supports language packs.  
-`res/ru.json` is the default translation supplied with the tool.
+`lang/ru.json` is the default translation supplied with the tool.
 The tool searches for it near itself and in working directory.  
-`SHADOWDARK_MKCHAR_LANG_PACK_FILE` environment variable could be used to overwrite it like this: `SHADOWDARK_MKCHAR_LANG_PACK_FILE=./res/alt.json ./shadowdark-mkchar`
+`SHADOWDARK_MKCHAR_LANG_PACK_FILE` environment variable could be used to overwrite it like this: `SHADOWDARK_MKCHAR_LANG_PACK_FILE=./lang/alt.json ./shadowdark-mkchar`
 
 # Build
 

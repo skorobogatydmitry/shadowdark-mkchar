@@ -63,7 +63,7 @@ impl LangPack {
 
     // get relative to CWD or relative to binary
     fn default_lang_pack() -> String {
-        let relative_to_cwd = "res/ru.json".to_string();
+        let relative_to_cwd = "lang/ru.json".to_string();
         if Path::new(&relative_to_cwd).exists() {
             relative_to_cwd
         } else {
@@ -77,7 +77,7 @@ impl LangPack {
                 }
                 Err(_) => "".to_string(),
             };
-            format!("{}/res/ru.json", basedir)
+            format!("{}/{}", basedir, relative_to_cwd)
         }
     }
 }
