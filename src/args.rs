@@ -26,9 +26,13 @@ pub struct Args {
     #[arg(short, long, value_enum)]
     pub language: Option<Language>,
 
-    /// character's alignment
+    /// character's alignment, a random alignment will be chosen if omit
     #[arg(long, value_enum)]
     pub alignment: Option<Alignment>,
+
+    /// character's name, a random name will be chosen if omit, accodring to ancestry
+    #[arg(short, long, value_enum)]
+    pub name: Option<String>,
 }
 
 #[derive(Debug, Clone, ValueEnum)]

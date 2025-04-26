@@ -94,7 +94,9 @@ impl Character {
             deity: Deity::roll(&alignment),
             alignment,
             inventory: Inventory::new(class_attributes.level),
-            name: LANG_PACK.names.roll(&ancestry_attributes.ancestry),
+            name: args
+                .name
+                .unwrap_or(LANG_PACK.names.roll(&ancestry_attributes.ancestry)),
             stats,
             ancestry_attributes,
             class_attributes,
