@@ -5,6 +5,7 @@ use rand::seq::IteratorRandom;
 use strum::IntoEnumIterator;
 
 use crate::{
+    alignment::Alignment,
     ancestry::{Ancestry, Language},
     class::Class,
     stats::Stats,
@@ -24,6 +25,10 @@ pub struct Args {
     /// language for human's ancestry, a random comon language will be chosen if omit
     #[arg(short, long, value_enum)]
     pub language: Option<Language>,
+
+    /// character's alignment
+    #[arg(long, value_enum)]
+    pub alignment: Option<Alignment>,
 }
 
 #[derive(Debug, Clone, ValueEnum)]

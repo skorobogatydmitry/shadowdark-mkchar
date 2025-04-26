@@ -1,10 +1,11 @@
 use std::fmt::Display;
 
+use clap::ValueEnum;
 use strum_macros::EnumIter;
 
 use crate::translation::LANG_PACK;
 
-#[derive(Debug, EnumIter, PartialEq, Eq)]
+#[derive(Debug, EnumIter, PartialEq, Eq, ValueEnum, Clone)]
 pub enum Alignment {
     Chaotic,
     Neutral,

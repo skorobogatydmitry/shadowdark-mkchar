@@ -59,7 +59,9 @@ impl Character {
         let stats = Stats::generate();
         let class = args.class.choose(&stats);
         let class_attributes = class.map(|c| c.fill()).unwrap_or_default();
-        let alignment: Alignment = Alignment::iter().choose(&mut rand::rng()).unwrap();
+        let alignment: Alignment = args
+            .alignment
+            .unwrap_or(Alignment::iter().choose(&mut rand::rng()).unwrap());
         let ancestry = args.ancestry.unwrap_or(Ancestry::roll());
         // TODO: find a better place
         if args
