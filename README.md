@@ -42,6 +42,5 @@ cross build --target aarch64-unknown-linux-gnu
 
 - print to a PDF/HTML template
 - randomize class for several eqaual stats
-- have a flag for truly random class
 - re-roll duplicated talents when applicable (theif, vigilant)
-- fix `res` search path
+- add class feature names translated

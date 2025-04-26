@@ -85,7 +85,6 @@ impl LangPack {
 #[derive(Deserialize)]
 pub struct ErrorMessages {
     pub stats_out_of_attempts: String,
-    pub unknown_class_option: String,
 }
 
 #[derive(Deserialize)]
@@ -137,7 +136,6 @@ pub struct Feature {
 #[derive(Deserialize)]
 pub struct ClassArgs {
     pub zero: String,
-    pub any: String,
     pub fighter: String,
     pub thief: String,
     pub wizard: String,

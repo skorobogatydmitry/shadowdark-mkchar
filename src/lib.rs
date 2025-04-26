@@ -1,17 +1,19 @@
 use std::fmt::Display;
 
 use alignment::Alignment;
+use args::Args;
 use background::Background;
-use clap::Parser;
 
 use ancestry::{Ancestry, Language};
-use class::{Class, ClassAttributes};
+use class::ClassAttributes;
 use deities::Deity;
 use inventory::Inventory;
 use rand::{Rng, seq::IteratorRandom};
 use stats::{StatKind, Stats};
 use strum::IntoEnumIterator;
 use translation::LANG_PACK;
+
+pub mod args;
 
 mod alignment;
 mod ancestry;
@@ -54,7 +56,7 @@ pub struct Character {
 impl Character {
     pub fn new(args: Args) -> Self {
         let stats = Stats::generate();
-        let class = ClassArg::from(args.class).choose(&stats);
+        let class = args.class.choose(&stats);
         let class_attributes = class.map(|c| c.fill()).unwrap_or_default();
         let alignment: Alignment = Alignment::iter().choose(&mut rand::rng()).unwrap();
         let ancestry = Ancestry::roll();
@@ -107,76 +109,5 @@ impl Display for Character {
         writeln!(f, "{}", self.stats)?;
         writeln!(f, "{}", self.class_attributes)?;
         write!(f, "{}", self.inventory)
-    }
-}
-
-/// Shadowdark quick characters generator
-/// supports custom translations
-#[derive(Parser, Debug)]
-pub struct Args {
-    #[arg(short, long, default_value_t = String::default())]
-    class: String,
-}
-
-#[derive(Debug)]
-pub enum ClassArg {
-    Zero,
-    Any,
-    Fighter,
-    Thief,
-    Wizard,
-    Priest,
-}
-
-impl ClassArg {
-    fn choose(self, stats: &Stats) -> Option<Class> {
-        match self {
-            Self::Zero => None,
-            Self::Fighter => Some(Class::Fighter),
-            Self::Thief => Some(Class::Thief),
-            Self::Wizard => Some(Class::Wizard),
-            Self::Priest => Some(Class::Priest),
-            Self::Any => Some(stats.suggest_class()), // TODO: allow to have a fully random class
-        }
-    }
-}
-
-impl Display for ClassArg {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{}",
-            match self {
-                Self::Zero => LANG_PACK.class_args.zero.clone(),
-                Self::Any => LANG_PACK.class_args.any.clone(),
-                Self::Fighter => LANG_PACK.class_args.fighter.clone(),
-                Self::Thief => LANG_PACK.class_args.thief.clone(),
-                Self::Wizard => LANG_PACK.class_args.wizard.clone(),
-                Self::Priest => LANG_PACK.class_args.priest.clone(),
-            }
-        )
-    }
-}
-
-impl From<String> for ClassArg {
-    fn from(value: String) -> Self {
-        if &value == LANG_PACK.class_args.zero.as_str() {
-            Self::Zero
-        } else if value == LANG_PACK.class_args.any.as_str() || value == String::default() {
-            Self::Any
-        } else if value == LANG_PACK.class_args.fighter.as_str() {
-            Self::Fighter
-        } else if value == LANG_PACK.class_args.thief.as_str() {
-            Self::Thief
-        } else if value == LANG_PACK.class_args.wizard.as_str() {
-            Self::Wizard
-        } else if value == LANG_PACK.class_args.priest.as_str() {
-            Self::Priest
-        } else {
-            panic!(
-                "{}: `{}'",
-                LANG_PACK.error_messages.unknown_class_option, value
-            );
-        }
     }
 }
