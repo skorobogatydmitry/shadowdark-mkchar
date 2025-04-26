@@ -181,15 +181,18 @@ enum AncestryFeature {
 
 impl Display for AncestryFeature {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let translation = match self {
-            Self::Stout => LANG_PACK.ancestry_features.stout.clone(),
-            Self::Farsight => LANG_PACK.ancestry_features.farsight.clone(),
-            Self::KeenSenses => LANG_PACK.ancestry_features.keen_senses.clone(),
-            Self::Mighty => LANG_PACK.ancestry_features.mighty.clone(),
-            Self::Stealthy => LANG_PACK.ancestry_features.stealthy.clone(),
-            Self::Ambitious => LANG_PACK.ancestry_features.ambitious.clone(),
-            Self::Knack => LANG_PACK.ancestry_features.knack.clone(),
-        };
-        write!(f, "{}: {}", translation.name, translation.description)
+        write!(
+            f,
+            "{}",
+            match self {
+                Self::Stout => LANG_PACK.ancestry_features.stout.clone(),
+                Self::Farsight => LANG_PACK.ancestry_features.farsight.clone(),
+                Self::KeenSenses => LANG_PACK.ancestry_features.keen_senses.clone(),
+                Self::Mighty => LANG_PACK.ancestry_features.mighty.clone(),
+                Self::Stealthy => LANG_PACK.ancestry_features.stealthy.clone(),
+                Self::Ambitious => LANG_PACK.ancestry_features.ambitious.clone(),
+                Self::Knack => LANG_PACK.ancestry_features.knack.clone(),
+            }
+        )
     }
 }

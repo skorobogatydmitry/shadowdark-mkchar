@@ -1,4 +1,4 @@
-use std::{cell::LazyCell, env, fs, path::Path};
+use std::{cell::LazyCell, env, fmt::Display, fs, path::Path};
 
 use rand::seq::IndexedRandom;
 
@@ -134,6 +134,12 @@ pub struct Feature {
     pub description: String,
 }
 
+impl Display for Feature {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}: {}", self.name, self.description)
+    }
+}
+
 #[derive(Deserialize)]
 pub struct ClassArgs {
     pub zero: String,
@@ -181,20 +187,20 @@ pub struct ClassFeatures {
 
 #[derive(Deserialize)]
 pub struct Talents {
-    pub weapon_mastery: String,
-    pub precise_strike: String,
-    pub trained: String,
-    pub armor_training: String,
-    pub gifted: String,
-    pub versatile: String,
-    pub vigilant: String,
-    pub deadly_stab: String,
-    pub god_blessed: String,
-    pub spell_expert: String,
-    pub skilled_caster: String,
-    pub devoted: String,
-    pub thin_air_craft: String,
-    pub bookworm: String,
+    pub weapon_mastery: Feature,
+    pub precise_strike: Feature,
+    pub trained: Feature,
+    pub armor_training: Feature,
+    pub gifted: Feature,
+    pub versatile: Feature,
+    pub vigilant: Feature,
+    pub deadly_stab: Feature,
+    pub god_blessed: Feature,
+    pub spell_expert: Feature,
+    pub skilled_caster: Feature,
+    pub devoted: Feature,
+    pub thin_air_craft: Feature,
+    pub bookworm: Feature,
 }
 
 #[derive(Deserialize)]

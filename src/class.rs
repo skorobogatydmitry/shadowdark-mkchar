@@ -271,19 +271,22 @@ pub enum ClassFeature {
 
 impl Display for ClassFeature {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let feature = match self {
-            Self::Hauler => LANG_PACK.class_features.hauler.clone(),
-            Self::WeaponMastery => LANG_PACK.class_features.weapon_mastery.clone(),
-            Self::Grit => LANG_PACK.class_features.grit.clone(),
-            Self::TurnUndead => LANG_PACK.class_features.turn_undead.clone(),
-            Self::SpellCasting => LANG_PACK.class_features.spellcasting.clone(),
-            Self::LearningSpells => LANG_PACK.class_features.learning_spells.clone(),
-            Self::Backstab => LANG_PACK.class_features.backstab.clone(),
-            Self::Theivery => LANG_PACK.class_features.theivery.clone(),
-            Self::JackOfAllTrades => LANG_PACK.class_features.jack_of_all_trades.clone(),
-            Self::BeginnersLuck => LANG_PACK.class_features.beginners_luck.clone(),
-        };
-        write!(f, "{}: {}", feature.name, feature.description)
+        write!(
+            f,
+            "{}",
+            match self {
+                Self::Hauler => LANG_PACK.class_features.hauler.clone(),
+                Self::WeaponMastery => LANG_PACK.class_features.weapon_mastery.clone(),
+                Self::Grit => LANG_PACK.class_features.grit.clone(),
+                Self::TurnUndead => LANG_PACK.class_features.turn_undead.clone(),
+                Self::SpellCasting => LANG_PACK.class_features.spellcasting.clone(),
+                Self::LearningSpells => LANG_PACK.class_features.learning_spells.clone(),
+                Self::Backstab => LANG_PACK.class_features.backstab.clone(),
+                Self::Theivery => LANG_PACK.class_features.theivery.clone(),
+                Self::JackOfAllTrades => LANG_PACK.class_features.jack_of_all_trades.clone(),
+                Self::BeginnersLuck => LANG_PACK.class_features.beginners_luck.clone(),
+            }
+        )
     }
 }
 
