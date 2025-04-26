@@ -59,7 +59,7 @@ impl Character {
         let class = args.class.choose(&stats);
         let class_attributes = class.map(|c| c.fill()).unwrap_or_default();
         let alignment: Alignment = Alignment::iter().choose(&mut rand::rng()).unwrap();
-        let ancestry = Ancestry::roll();
+        let ancestry = args.ancestry.unwrap_or(Ancestry::roll());
         Self {
             background: Background::iter().choose(&mut rand::rng()).unwrap(),
             deity: Deity::roll(&alignment),

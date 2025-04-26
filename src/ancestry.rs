@@ -1,5 +1,6 @@
 use std::fmt::Display;
 
+use clap::ValueEnum;
 use rand::prelude::*;
 use serde::Deserialize;
 use strum::IntoEnumIterator;
@@ -7,7 +8,7 @@ use strum_macros::EnumIter;
 
 use crate::translation::LANG_PACK;
 
-#[derive(Debug, EnumIter, Deserialize, Clone)]
+#[derive(Debug, EnumIter, Deserialize, Clone, ValueEnum)]
 #[serde(rename_all = "snake_case")]
 pub enum Ancestry {
     Dwarf,
@@ -23,6 +24,7 @@ impl Ancestry {
     pub fn roll() -> Self {
         Self::iter().choose(&mut rand::rng()).unwrap().clone()
     }
+
     pub fn languages(&self) -> Vec<Language> {
         match self {
             Self::Dwarf => vec![Language::Common, Language::Dwarwish],
