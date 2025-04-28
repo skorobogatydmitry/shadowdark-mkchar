@@ -3,23 +3,35 @@
 Is inspired by https://github.com/cjstoddard/Shadowdark.py.
 
 Features:
-- randomly generate level 1 or level 0 character for Shadowdark.
-- support translations (only russian for now)
+- randomly generate level 1 or level 0 character for Shadowdark
+- support [translations](#translations) (only russian for now)
+- prints character to console and makes a PDF file
 
 # Run
 
 - you need to download and unpack one of the release archives from github
-- then, open terminal window
-- and run something like `./Downloads/shadowdark-mkchar-*/shadowdark-mkchar`
+- then open terminal window
+- then run something like `./Downloads/shadowdark-mkchar-*/shadowdark-mkchar`
 
 ## Translations
 
 The tool supports language packs.  
-`lang/ru.json` is the default translation supplied with the tool.
-The tool searches for it near itself and in working directory.  
-`SHADOWDARK_MKCHAR_LANG_PACK_FILE` environment variable could be used to overwrite it like this: `SHADOWDARK_MKCHAR_LANG_PACK_FILE=./lang/alt.json ./shadowdark-mkchar`
+Run the tool with `--help` to see what's the default translation supplied with the tool.  
+The tool searches for the file in its directory and in the working directory.  
+`--translation` argument could be used to overwrite the file like this: `./shadowdark-mkchar --translation lang/alt.json`
+
+# PDF
+
+The tool uses a [typst](https://github.com/typst/typst) template to generate PDF.  
+`cargo install --locked typst-cli` is required to compile template manually.  
+Then you need to uncomment `// #import "inputs-sample.typ": inputs` in the [res/template.typ](res/template.typ) and comment the import below.  
+PDF compilation command: `typst compile ./res/template.typ sample.pdf --font-path ./res/`.
 
 # Build
+
+## Makefile / automated
+
+There's a makefile to make release archives. It only works on Linux for now.
 
 ## Manual
 
@@ -40,7 +52,8 @@ cross build --target aarch64-unknown-linux-gnu
 
 # NEXT
 
-- print to a PDF/HTML template
 - randomize class for several eqaual stats
 - re-roll duplicated talents when applicable (theif, vigilant)
-- add class feature names translated
+- talent rolls (e.g. human's extra one)
+- deity as argument
+- cleanup values clonning in the code

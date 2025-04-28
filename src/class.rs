@@ -3,7 +3,11 @@ use std::{fmt::Display, vec};
 use rand::seq::IndexedRandom;
 use strum_macros::EnumIter;
 
-use crate::{Dice, ancestry::Language, translation::LANG_PACK};
+use crate::{
+    Dice,
+    ancestry::Language,
+    translation::{Feature, LANG_PACK},
+};
 
 #[derive(Debug, Clone, EnumIter)]
 pub enum Class {
@@ -146,16 +150,22 @@ pub struct ClassAttributes {
     pub class: Option<Class>,
 }
 
+impl ClassAttributes {
+    pub fn class_name(&self) -> String {
+        self.class
+            .as_ref()
+            .map(|c| format!("{}", c))
+            .unwrap_or(LANG_PACK.class_args.zero.clone())
+    }
+}
+
 impl Display for ClassAttributes {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
             "{}: {}\n{}: {}\n{}: {}\n{}:\n  {}\n{}:\n  {}",
             LANG_PACK.class,
-            self.class
-                .as_ref()
-                .map(|c| format!("{}", c))
-                .unwrap_or(LANG_PACK.class_args.zero.clone()),
+            self.class_name(),
             LANG_PACK.weapon,
             self.weapon_masteries
                 .iter()
@@ -213,24 +223,26 @@ pub enum WeaponMastery {
     Shortsword,
 }
 
+impl WeaponMastery {
+    pub fn name(&self) -> String {
+        match self {
+            Self::All => LANG_PACK.weapon_masteries.all.clone(),
+            Self::Club => LANG_PACK.weapon_masteries.club.clone(),
+            Self::Crossbow => LANG_PACK.weapon_masteries.crossbow.clone(),
+            Self::Mace => LANG_PACK.weapon_masteries.mace.clone(),
+            Self::Longsword => LANG_PACK.weapon_masteries.longsword.clone(),
+            Self::Staff => LANG_PACK.weapon_masteries.staff.clone(),
+            Self::Warhammer => LANG_PACK.weapon_masteries.warhammer.clone(),
+            Self::Dagger => LANG_PACK.weapon_masteries.dagger.clone(),
+            Self::Shortbow => LANG_PACK.weapon_masteries.shortbow.clone(),
+            Self::Shortsword => LANG_PACK.weapon_masteries.shortsword.clone(),
+        }
+    }
+}
+
 impl Display for WeaponMastery {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{}",
-            match self {
-                Self::All => LANG_PACK.weapon_masteries.all.clone(),
-                Self::Club => LANG_PACK.weapon_masteries.club.clone(),
-                Self::Crossbow => LANG_PACK.weapon_masteries.crossbow.clone(),
-                Self::Mace => LANG_PACK.weapon_masteries.mace.clone(),
-                Self::Longsword => LANG_PACK.weapon_masteries.longsword.clone(),
-                Self::Staff => LANG_PACK.weapon_masteries.staff.clone(),
-                Self::Warhammer => LANG_PACK.weapon_masteries.warhammer.clone(),
-                Self::Dagger => LANG_PACK.weapon_masteries.dagger.clone(),
-                Self::Shortbow => LANG_PACK.weapon_masteries.shortbow.clone(),
-                Self::Shortsword => LANG_PACK.weapon_masteries.shortsword.clone(),
-            }
-        )
+        write!(f, "{}", self.name())
     }
 }
 
@@ -241,18 +253,20 @@ pub enum ArmorMastery {
     MithralChainmail,
 }
 
+impl ArmorMastery {
+    pub fn name(&self) -> String {
+        match self {
+            Self::All => LANG_PACK.armor_masteries.all.clone(),
+            Self::Shields => LANG_PACK.armor_masteries.shields.clone(),
+            Self::LeatherArmor => LANG_PACK.armor_masteries.leather_armor.clone(),
+            Self::MithralChainmail => LANG_PACK.armor_masteries.mithral_chainmail.clone(),
+        }
+    }
+}
+
 impl Display for ArmorMastery {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{}",
-            match self {
-                Self::All => LANG_PACK.armor_masteries.all.clone(),
-                Self::Shields => LANG_PACK.armor_masteries.shields.clone(),
-                Self::LeatherArmor => LANG_PACK.armor_masteries.leather_armor.clone(),
-                Self::MithralChainmail => LANG_PACK.armor_masteries.mithral_chainmail.clone(),
-            }
-        )
+        write!(f, "{}", self.name())
     }
 }
 
@@ -269,24 +283,26 @@ pub enum ClassFeature {
     BeginnersLuck,
 }
 
+impl ClassFeature {
+    pub fn to_feature(&self) -> Feature {
+        match self {
+            Self::Hauler => LANG_PACK.class_features.hauler.clone(),
+            Self::WeaponMastery => LANG_PACK.class_features.weapon_mastery.clone(),
+            Self::Grit => LANG_PACK.class_features.grit.clone(),
+            Self::TurnUndead => LANG_PACK.class_features.turn_undead.clone(),
+            Self::SpellCasting => LANG_PACK.class_features.spellcasting.clone(),
+            Self::LearningSpells => LANG_PACK.class_features.learning_spells.clone(),
+            Self::Backstab => LANG_PACK.class_features.backstab.clone(),
+            Self::Theivery => LANG_PACK.class_features.theivery.clone(),
+            Self::JackOfAllTrades => LANG_PACK.class_features.jack_of_all_trades.clone(),
+            Self::BeginnersLuck => LANG_PACK.class_features.beginners_luck.clone(),
+        }
+    }
+}
+
 impl Display for ClassFeature {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{}",
-            match self {
-                Self::Hauler => LANG_PACK.class_features.hauler.clone(),
-                Self::WeaponMastery => LANG_PACK.class_features.weapon_mastery.clone(),
-                Self::Grit => LANG_PACK.class_features.grit.clone(),
-                Self::TurnUndead => LANG_PACK.class_features.turn_undead.clone(),
-                Self::SpellCasting => LANG_PACK.class_features.spellcasting.clone(),
-                Self::LearningSpells => LANG_PACK.class_features.learning_spells.clone(),
-                Self::Backstab => LANG_PACK.class_features.backstab.clone(),
-                Self::Theivery => LANG_PACK.class_features.theivery.clone(),
-                Self::JackOfAllTrades => LANG_PACK.class_features.jack_of_all_trades.clone(),
-                Self::BeginnersLuck => LANG_PACK.class_features.beginners_luck.clone(),
-            }
-        )
+        write!(f, "{}", self.to_feature())
     }
 }
 

@@ -1,15 +1,17 @@
 use std::{cell::LazyCell, env, fmt::Display, fs, path::Path};
 
+use derive_typst_intoval::{IntoDict, IntoValue};
+use typst::foundations::IntoValue;
+
 use rand::seq::IndexedRandom;
 
 use serde::Deserialize;
 
-use crate::ancestry::Ancestry;
+use crate::{ancestry::Ancestry, args::ARGS};
 
 pub const LANG_PACK: LazyCell<LangPack> = LazyCell::new(|| LangPack::load());
-static LANG_PACK_ENV_VAR_NAME: &str = "SHADOWDARK_MKCHAR_LANG_PACK_FILE";
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
 pub struct LangPack {
     pub error_messages: ErrorMessages,
     pub stats: String,
@@ -49,11 +51,12 @@ pub struct LangPack {
     pub name: String,
     pub names: Names,
     pub available: String,
+    pub ft: String,
 }
 
 impl LangPack {
     pub fn load() -> Self {
-        let lang_file = env::var(LANG_PACK_ENV_VAR_NAME).unwrap_or(Self::default_lang_pack());
+        let lang_file = Self::find_lang_pack();
         serde_json::from_str(
             &fs::read_to_string(&lang_file)
                 .expect(&format!("cannot read language file {}", lang_file)),
@@ -62,10 +65,10 @@ impl LangPack {
     }
 
     // get relative to CWD or relative to binary
-    fn default_lang_pack() -> String {
-        let relative_to_cwd = "lang/ru.json".to_string();
+    fn find_lang_pack() -> String {
+        let relative_to_cwd = &ARGS.translation;
         if Path::new(&relative_to_cwd).exists() {
-            relative_to_cwd
+            relative_to_cwd.clone()
         } else {
             let basedir = match env::current_exe() {
                 Ok(path) => {
@@ -82,13 +85,14 @@ impl LangPack {
     }
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
 pub struct ErrorMessages {
     pub stats_out_of_attempts: String,
     pub non_common_language: String,
+    pub pdf_compilation_failed: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
 pub struct Languages {
     pub common: String,
     pub dwarwish: String,
@@ -106,7 +110,7 @@ pub struct Languages {
     pub primordial: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
 pub struct Ancestries {
     pub dwarf: String,
     pub kobold: String,
@@ -117,7 +121,7 @@ pub struct Ancestries {
     pub human: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
 pub struct AncestryFeatures {
     pub stout: Feature,
     pub farsight: Feature,
@@ -128,7 +132,7 @@ pub struct AncestryFeatures {
     pub knack: Feature,
 }
 
-#[derive(Deserialize, Clone)]
+#[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
 pub struct Feature {
     pub name: String,
     pub description: String,
@@ -140,7 +144,7 @@ impl Display for Feature {
     }
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
 pub struct ClassArgs {
     pub zero: String,
     pub fighter: String,
@@ -149,7 +153,7 @@ pub struct ClassArgs {
     pub priest: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
 pub struct WeaponMasteries {
     pub all: String,
     pub club: String,
@@ -163,7 +167,7 @@ pub struct WeaponMasteries {
     pub shortsword: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
 pub struct ArmorMasteries {
     pub all: String,
     pub shields: String,
@@ -171,7 +175,7 @@ pub struct ArmorMasteries {
     pub mithral_chainmail: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
 pub struct ClassFeatures {
     pub hauler: Feature,
     pub weapon_mastery: Feature,
@@ -185,7 +189,7 @@ pub struct ClassFeatures {
     pub beginners_luck: Feature,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
 pub struct Talents {
     pub weapon_mastery: Feature,
     pub precise_strike: Feature,
@@ -203,7 +207,7 @@ pub struct Talents {
     pub bookworm: Feature,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
 pub struct Deities {
     pub saint_terragnis: String,
     pub gede: String,
@@ -215,7 +219,7 @@ pub struct Deities {
     pub the_lost: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
 pub struct Backgrounds {
     pub urchin: String,
     pub wanted: String,
@@ -239,14 +243,14 @@ pub struct Backgrounds {
     pub chirurgeon: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
 pub struct Alignments {
     pub chaotic: String,
     pub neutral: String,
     pub lawful: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
 pub struct Gear {
     pub torch: String,
     pub dagger: String,
@@ -263,7 +267,7 @@ pub struct Gear {
     pub bag_of_caltrops: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
 pub struct Names {
     pub dwarf: Vec<String>,
     pub elf: Vec<String>,
@@ -275,7 +279,7 @@ pub struct Names {
 }
 
 impl Names {
-    pub fn roll(&self, ancestry: &Ancestry) -> String {
+    pub fn roll(&self, ancestry: &Ancestry) -> &String {
         let mut rng = rand::rng();
         match ancestry {
             Ancestry::Dwarf => self.dwarf.choose(&mut rng),
@@ -287,6 +291,5 @@ impl Names {
             Ancestry::Kobold => self.kobold.choose(&mut rng),
         }
         .unwrap()
-        .clone()
     }
 }

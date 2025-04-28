@@ -1,7 +1,7 @@
 use std::fmt::Display;
 
 use alignment::Alignment;
-use args::Args;
+use args::{ARGS, Args};
 use background::Background;
 
 use ancestry::{Ancestry, AncestryAttributes, Language};
@@ -9,12 +9,12 @@ use clap::CommandFactory;
 use class::ClassAttributes;
 use deities::Deity;
 use inventory::Inventory;
-use rand::{Rng, seq::IteratorRandom};
+use rand::Rng;
 use stats::{StatKind, Stats};
-use strum::IntoEnumIterator;
 use translation::LANG_PACK;
 
 pub mod args;
+pub mod template;
 
 mod alignment;
 mod ancestry;
@@ -55,16 +55,19 @@ pub struct Character {
 }
 
 impl Character {
-    pub fn new(args: Args) -> Self {
+    pub fn new() -> Self {
         let stats = Stats::generate();
-        let class = args.class.choose(&stats);
+        let class = ARGS.class.choose(&stats);
         let class_attributes = class.map(|c| c.fill()).unwrap_or_default();
-        let alignment: Alignment = args
+        let alignment: Alignment = ARGS
             .alignment
-            .unwrap_or(Alignment::iter().choose(&mut rand::rng()).unwrap());
-        let ancestry = args.ancestry.unwrap_or(Ancestry::roll());
+            .as_ref()
+            .cloned()
+            .unwrap_or(Alignment::roll());
+        let ancestry = ARGS.ancestry.as_ref().cloned().unwrap_or(Ancestry::roll());
+        // check the extra language supplied
         // TODO: find a better place
-        if args
+        if ARGS
             .language
             .as_ref()
             .map(|l| !ancestry.allowed_extra_languages().contains(l))
@@ -88,15 +91,17 @@ impl Character {
                 )
                 .exit();
         }
-        let ancestry_attributes = AncestryAttributes::new(ancestry, args.language);
+        let ancestry_attributes = AncestryAttributes::new(ancestry, ARGS.language.as_ref());
         Self {
-            background: Background::iter().choose(&mut rand::rng()).unwrap(),
+            background: Background::roll(),
             deity: Deity::roll(&alignment),
             alignment,
             inventory: Inventory::new(class_attributes.level),
-            name: args
+            name: ARGS
                 .name
-                .unwrap_or(LANG_PACK.names.roll(&ancestry_attributes.ancestry)),
+                .as_ref()
+                .unwrap_or(LANG_PACK.names.roll(&ancestry_attributes.ancestry))
+                .clone(),
             stats,
             ancestry_attributes,
             class_attributes,
@@ -117,6 +122,10 @@ impl Character {
         all_languages.extend(self.ancestry_attributes.languages.clone());
         all_languages.extend(self.class_attributes.languages.clone());
         all_languages
+    }
+
+    pub fn inventory_slots_count(&self) -> u8 {
+        std::cmp::max(10, self.stats.value(StatKind::Strength))
     }
 }
 

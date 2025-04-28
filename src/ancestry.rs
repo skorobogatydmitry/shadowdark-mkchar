@@ -6,7 +6,7 @@ use serde::Deserialize;
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
-use crate::translation::LANG_PACK;
+use crate::translation::{Feature, LANG_PACK};
 
 pub struct AncestryAttributes {
     pub ancestry: Ancestry,
@@ -14,7 +14,7 @@ pub struct AncestryAttributes {
 }
 
 impl AncestryAttributes {
-    pub fn new(ancestry: Ancestry, chosen_language: Option<Language>) -> Self {
+    pub fn new(ancestry: Ancestry, chosen_language: Option<&Language>) -> Self {
         Self {
             languages: match ancestry {
                 Ancestry::Dwarf => vec![Language::Common, Language::Dwarwish],
@@ -25,13 +25,14 @@ impl AncestryAttributes {
                 Ancestry::HalfOrc => vec![Language::Common, Language::Orchish],
                 Ancestry::Human => vec![
                     Language::Common,
-                    chosen_language.unwrap_or(
-                        ancestry
-                            .allowed_extra_languages()
-                            .choose(&mut rand::rng())
-                            .unwrap()
-                            .clone(),
-                    ),
+                    chosen_language
+                        .unwrap_or(
+                            &ancestry
+                                .allowed_extra_languages()
+                                .choose(&mut rand::rng())
+                                .unwrap(),
+                        )
+                        .clone(),
                 ],
             },
             ancestry,
@@ -53,10 +54,10 @@ pub enum Ancestry {
 
 impl Ancestry {
     pub fn roll() -> Self {
-        Self::iter().choose(&mut rand::rng()).unwrap().clone()
+        Self::iter().choose(&mut rand::rng()).unwrap()
     }
 
-    fn feature(&self) -> AncestryFeature {
+    pub fn feature(&self) -> AncestryFeature {
         match self {
             Self::Dwarf => AncestryFeature::Stout,
             Self::Kobold => AncestryFeature::Knack,
@@ -169,7 +170,7 @@ impl Language {
     }
 }
 
-enum AncestryFeature {
+pub enum AncestryFeature {
     Stout,
     Farsight,
     KeenSenses,
@@ -179,20 +180,22 @@ enum AncestryFeature {
     Knack,
 }
 
+impl AncestryFeature {
+    pub fn to_feature(&self) -> Feature {
+        match self {
+            Self::Stout => LANG_PACK.ancestry_features.stout.clone(),
+            Self::Farsight => LANG_PACK.ancestry_features.farsight.clone(),
+            Self::KeenSenses => LANG_PACK.ancestry_features.keen_senses.clone(),
+            Self::Mighty => LANG_PACK.ancestry_features.mighty.clone(),
+            Self::Stealthy => LANG_PACK.ancestry_features.stealthy.clone(),
+            Self::Ambitious => LANG_PACK.ancestry_features.ambitious.clone(),
+            Self::Knack => LANG_PACK.ancestry_features.knack.clone(),
+        }
+    }
+}
+
 impl Display for AncestryFeature {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{}",
-            match self {
-                Self::Stout => LANG_PACK.ancestry_features.stout.clone(),
-                Self::Farsight => LANG_PACK.ancestry_features.farsight.clone(),
-                Self::KeenSenses => LANG_PACK.ancestry_features.keen_senses.clone(),
-                Self::Mighty => LANG_PACK.ancestry_features.mighty.clone(),
-                Self::Stealthy => LANG_PACK.ancestry_features.stealthy.clone(),
-                Self::Ambitious => LANG_PACK.ancestry_features.ambitious.clone(),
-                Self::Knack => LANG_PACK.ancestry_features.knack.clone(),
-            }
-        )
+        write!(f, "{}", self.to_feature())
     }
 }

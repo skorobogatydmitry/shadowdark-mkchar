@@ -1,4 +1,7 @@
-use std::{collections::BTreeMap, fmt::Display};
+use std::{
+    collections::{BTreeMap, btree_map::Values},
+    fmt::Display,
+};
 
 use rand::prelude::*;
 use rand::seq::IndexedRandom;
@@ -26,17 +29,17 @@ impl StatKind {
 }
 
 #[derive(Debug)]
-struct Stat {
-    val: u8,
-    kind: StatKind,
+pub struct Stat {
+    pub val: u8,
+    pub kind: StatKind,
 }
 
 impl Stat {
-    fn modifier(&self) -> i8 {
+    pub fn modifier(&self) -> i8 {
         (self.val as i8 - 10) as i8 / 2
     }
 
-    fn name(&self) -> String {
+    pub fn name(&self) -> String {
         match self.kind {
             StatKind::Strength => LANG_PACK.strength.clone(),
             StatKind::Dexterity => LANG_PACK.dexterity.clone(),
@@ -102,6 +105,10 @@ impl Stats {
         self.map.get(&kind).map(|s| s.modifier()).unwrap()
     }
 
+    pub fn value(&self, kind: StatKind) -> u8 {
+        self.map.get(&kind).map(|s| s.val).unwrap()
+    }
+
     pub fn suggest_class(&self) -> Class {
         let random_class = Class::iter().choose(&mut rand::rng()).unwrap();
         let figher_or_thief = [Class::Thief, Class::Fighter]
@@ -134,6 +141,10 @@ impl Stats {
                 StatKind::Charisma => panic!("2 x {}", LANG_PACK.charisma),
             },
         }
+    }
+
+    pub fn iter(&self) -> Values<'_, StatKind, Stat> {
+        self.map.values()
     }
 }
 

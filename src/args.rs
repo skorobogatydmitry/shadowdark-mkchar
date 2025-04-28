@@ -1,5 +1,7 @@
 //! parse command line args
 
+use std::cell::LazyCell;
+
 use clap::{Parser, ValueEnum};
 use rand::seq::IteratorRandom;
 use strum::IntoEnumIterator;
@@ -10,6 +12,8 @@ use crate::{
     class::Class,
     stats::Stats,
 };
+
+pub const ARGS: LazyCell<Args> = LazyCell::new(|| Args::parse());
 
 /// Shadowdark quick characters generator with custom translation support
 #[derive(Debug, Parser)]
@@ -33,6 +37,18 @@ pub struct Args {
     /// character's name, a random name will be chosen if omit, accodring to ancestry
     #[arg(short, long, value_enum)]
     pub name: Option<String>,
+
+    /// translation file to use
+    #[arg(short, long, default_value_t = String::from("lang/ru_short.json"))]
+    pub translation: String,
+
+    /// don't print character to console
+    #[arg(long, action)]
+    pub no_print: bool,
+
+    /// don't save character sheet to a PDF file
+    #[arg(long, action)]
+    pub no_pdf: bool,
 }
 
 #[derive(Debug, Clone, ValueEnum)]
@@ -50,7 +66,7 @@ pub enum ClassArg {
 }
 
 impl ClassArg {
-    pub fn choose(self, stats: &Stats) -> Option<Class> {
+    pub fn choose(&self, stats: &Stats) -> Option<Class> {
         match self {
             Self::Zero => None,
             Self::Fighter => Some(Class::Fighter),

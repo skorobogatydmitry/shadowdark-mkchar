@@ -5,8 +5,8 @@ use rand::seq::IndexedRandom;
 use crate::{Dice, translation::LANG_PACK};
 
 pub struct Inventory {
-    purse: Purse,
-    equipment: Vec<Gear>,
+    pub purse: Purse,
+    pub equipment: Vec<Gear>,
 }
 
 impl Inventory {
@@ -37,8 +37,8 @@ impl Display for Inventory {
 }
 
 pub struct Purse {
-    gold: u32,
-    silver: u32,
+    pub gold: u32,
+    pub silver: u32,
 }
 
 impl Purse {
@@ -120,7 +120,7 @@ impl Display for Gear {
             Self::Pole => write!(f, "{}", LANG_PACK.gear.pole),
             Self::Shortbow => write!(f, "{}", LANG_PACK.gear.shortbow),
             Self::Arrows(count) => write!(f, "{} ({})", LANG_PACK.gear.arrows, count),
-            Self::Rope(len) => write!(f, "{} ({}′)", LANG_PACK.gear.rope, len),
+            Self::Rope(len) => write!(f, "{} ({}{})", LANG_PACK.gear.rope, len, LANG_PACK.ft),
             Self::FlaskOfOil => write!(f, "{}", LANG_PACK.gear.flask_of_oil),
             Self::Crowbar => write!(f, "{}", LANG_PACK.gear.crowbar),
             Self::IronSpikes(count) => {
