@@ -2,7 +2,7 @@
 // #import "inputs-sample.typ": inputs
 #import sys: inputs
 
-#set page(paper: "a7", margin: (x: 2%, y: 1%))
+#set page(paper: "a6", margin: (x: 2%, y: 1%))
 
 #stack(
   dir: ltr,
@@ -12,13 +12,13 @@
     align(
       top,
       [
-        #set text(4pt, font: "Hermann-GotischC")
+        #set text(4pt, font: "Brahms Gotisch Cyr")
         = #inputs.terms.name
-        #set text(10pt, font: "Brahms Gotisch Cyr")
+        #set text(10pt, font: "Kereru")
         #inputs.name
-        #set text(4pt, font: "Hermann-GotischC")
+        #set text(4pt, font: "Brahms Gotisch Cyr")
         = #inputs.terms.ancestry
-        #set text(10pt, font: "Brahms Gotisch Cyr")
+        #set text(10pt, font: "Kereru")
         #set par(spacing: .5em)
         #inputs.ancestry \
         #table(
@@ -27,7 +27,7 @@
           align: center,
           [#inputs.terms.hit_points], [#inputs.hit_points],
         )
-        #set text(4pt, font: "Hermann-GotischC")
+        #set text(4pt, font: "Brahms Gotisch Cyr")
         = #inputs.terms.stats
         #table(
           columns: (1fr, 1fr),
@@ -40,35 +40,35 @@
                 colspan: 2,
                 inset: (top: 30%),
                 [
-                  #set text(7pt, font: "Brahms Gotisch Cyr")
+                  #set text(7pt, font: "Kereru")
                   #stat.name
                 ],
               ),
               table.hline(stroke: .5pt),
               [
-                #set text(10pt, font: "Brahms Gotisch Cyr")
+                #set text(10pt, font: "Kereru")
                 #stat.value
               ],
               [
-                #set text(10pt, font: "Brahms Gotisch Cyr")
+                #set text(10pt, font: "Kereru")
                 #stat.modifier
               ],
             )
           },
           table.vline(stroke: .5pt, x: 1),
         )
-        #set text(4pt, font: "Hermann-GotischC")
+        #set text(4pt, font: "Brahms Gotisch Cyr")
         = #inputs.terms.language
-        #set text(6pt, font: "Brahms Gotisch Cyr")
+        #set text(6pt, font: "Kereru")
         #inputs.languages.join("\n")
-        #set text(6pt, font: "Brahms Gotisch Cyr")
+        #set text(6pt, font: "Kereru")
         #table(
           columns: 1,
           stroke: none,
           inset: 15%,
           align: center,
           [
-            #set text(7pt, font: "Brahms Gotisch Cyr")
+            #set text(7pt, font: "Kereru")
             #inputs.ancestry_feature.name
           ],
           table.cell(
@@ -87,22 +87,22 @@
     align(
       top,
       [
-        #set text(4pt, font: "Hermann-GotischC")
+        #set text(4pt, font: "Brahms Gotisch Cyr")
         = #inputs.terms.background
-        #set text(10pt, font: "Brahms Gotisch Cyr")
+        #set text(10pt, font: "Kereru")
         #inputs.background
-        #set text(4pt, font: "Hermann-GotischC")
+        #set text(4pt, font: "Brahms Gotisch Cyr")
         = #inputs.terms.alignment
-        #set text(10pt, font: "Brahms Gotisch Cyr")
+        #set text(10pt, font: "Kereru")
         #inputs.alignment
-        #set text(4pt, font: "Hermann-GotischC")
+        #set text(4pt, font: "Brahms Gotisch Cyr")
         = #inputs.terms.deity
-        #set text(8pt, font: "Brahms Gotisch Cyr")
+        #set text(8pt, font: "Kereru")
         #inputs.deity
-        #set text(6pt, font: "Hermann-GotischC")
+        #set text(6pt, font: "Brahms Gotisch Cyr")
         #set align(center)
         = #inputs.terms.talent
-        #set text(6pt, font: "Brahms Gotisch Cyr")
+        #set text(6pt, font: "Kereru")
         #table(
           columns: 1,
           stroke: none,
@@ -111,7 +111,7 @@
           ..for t in inputs.class_features {
             (
               [
-                #set text(7pt, font: "Brahms Gotisch Cyr")
+                #set text(7pt, font: "Kereru")
                 #t.name
               ],
               table.cell(
@@ -132,20 +132,20 @@
     align(
       top,
       [
-        #set text(4pt, font: "Hermann-GotischC")
+        #set text(4pt, font: "Brahms Gotisch Cyr")
         = #inputs.terms.class
-        #set text(10pt, font: "Brahms Gotisch Cyr")
+        #set text(10pt, font: "Kereru")
         #inputs.class
-        #set text(4pt, font: "Hermann-GotischC")
+        #set text(4pt, font: "Brahms Gotisch Cyr")
         = #inputs.terms.weapon
-        #set text(8pt, font: "Brahms Gotisch Cyr")
+        #set text(8pt, font: "Kereru")
         #inputs.weapon_masteries.join("\n")
-        #set text(4pt, font: "Hermann-GotischC")
+        #set text(4pt, font: "Brahms Gotisch Cyr")
         = #inputs.terms.armor
-        #set text(8pt, font: "Brahms Gotisch Cyr")
+        #set text(8pt, font: "Kereru")
         #set par(spacing: .5em)
         #inputs.armor_masteries.join("\n")
-        #set text(6pt, font: "Brahms Gotisch Cyr")
+        #set text(6pt, font: "Kereru")
         #table(
           columns: (.7fr, 1fr, .7fr, 1fr),
           align: center,
@@ -154,7 +154,7 @@
           table.cell(
             colspan: 4,
             [
-              #set text(8pt, font: "Hermann-GotischC")
+              #set text(8pt, font: "Brahms Gotisch Cyr")
               #inputs.terms.purse],
           ),
           table.cell(inset: (x: 5%, y: 30%), [#inputs.terms.gold_pieces]),
@@ -172,7 +172,7 @@
             colspan: 2,
             align: center,
             [
-              #set text(8pt, font: "Hermann-GotischC")
+              #set text(8pt, font: "Brahms Gotisch Cyr")
               #inputs.terms.inventory],
           ),
           ..for i in range(inputs.slots_count) {
