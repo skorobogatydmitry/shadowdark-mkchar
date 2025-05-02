@@ -5,6 +5,7 @@ use typst_as_lib::TypstEngine;
 
 use crate::{
     Character,
+    args::ARGS,
     translation::{Feature, LANG_PACK, LangPack},
 };
 
@@ -106,9 +107,20 @@ pub trait ToPdf {
 
 impl ToPdf for Character {
     fn to_pdf(&self) {
-        let file_name = format!("{}-{}.pdf", self.name, self.class_attributes.class_name());
+        let file_name = format!(
+            "{}-{}.pdf",
+            self.name.to_lowercase(),
+            self.class_attributes.class_name().to_lowercase()
+        );
+        let template = ARGS
+            .template
+            .clone()
+            .map(|tf| fs::read_to_string(tf).unwrap());
         let engine = TypstEngine::builder()
-            .main_file(TYPST_TEMPLATE)
+            .main_file(match template.as_ref() {
+                None => TYPST_TEMPLATE,
+                Some(t) => t,
+            })
             .fonts([FONT1, FONT2])
             .build();
         let data = TypstTemplateData::from(self);

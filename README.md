@@ -50,13 +50,13 @@ cross build --target aarch64-unknown-linux-gnu
 > There's an extra step for MacOS users to disable security check.
 > Otherwize, MacOS says the binary is corrupted and refuses to run it.
 
-# NEXT
+# What to contribute?
 
-- allow to choose spells
-- fix dashes in skills
-- add spells description in a separated block
-- randomize class for several eqaual stats
-- re-roll duplicated talents when applicable (theif, vigilant)
+- allow to choose spells (now they're randomed)
+- fix dashes in skills (just a font problem)
+- add spell descriptions in a separated block of PDF
+- randomize class for several eqaual stats (e.g. if STR and INT is 16, choose either class)
 - talent rolls (e.g. human's extra one)
-- deity as argument
+- re-roll duplicated talents when applicable (e.g. human theif, vigilant)
+- allow to supply deity as argument
 - cleanup values clonning in the code

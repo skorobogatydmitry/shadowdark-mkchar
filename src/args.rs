@@ -49,6 +49,10 @@ pub struct Args {
     /// don't save character sheet to a PDF file
     #[arg(long, action)]
     pub no_pdf: bool,
+
+    /// typst template to use for PDF, default: builtin template
+    #[arg(long)]
+    pub template: Option<String>,
 }
 
 #[derive(Debug, Clone, ValueEnum)]
