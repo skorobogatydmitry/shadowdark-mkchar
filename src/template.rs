@@ -10,7 +10,7 @@ use crate::{
 };
 
 const TYPST_TEMPLATE: &str = include_str!("../res/template.typ");
-const FONT1: &[u8] = include_bytes!("../res/Hermann Gotisch/Hermann-GotischC.ttf");
+const FONT1: &[u8] = include_bytes!("../res/Brahms Gotisch Cyrillic/BrahmsGotischCyr.otf");
 const FONT2: &[u8] = include_bytes!("../res/Kereru/Kereru Bold.ttf");
 
 #[derive(Debug, Clone, IntoValue, IntoDict)]
