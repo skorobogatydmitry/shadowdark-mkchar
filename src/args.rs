@@ -10,6 +10,7 @@ use crate::{
     alignment::Alignment,
     ancestry::{Ancestry, Language},
     class::Class,
+    deities::Deity,
     stats::Stats,
 };
 
@@ -53,6 +54,10 @@ pub struct Args {
     /// typst template to use for PDF, default: builtin template
     #[arg(long)]
     pub template: Option<String>,
+
+    /// deity of your character
+    #[arg(long, value_enum)]
+    pub deity: Option<Deity>,
 }
 
 #[derive(Debug, Clone, ValueEnum)]

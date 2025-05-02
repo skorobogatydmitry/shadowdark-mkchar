@@ -61,7 +61,7 @@ impl From<&Character> for TypstTemplateData {
                 })
                 .collect(),
             alignment: value.alignment.name(),
-            deity: value.deity.name.clone(),
+            deity: value.deity.name(),
             class_features: value
                 .class_attributes
                 .class_features

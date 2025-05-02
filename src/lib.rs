@@ -59,11 +59,18 @@ impl Character {
         let stats = Stats::generate();
         let class = ARGS.class.choose(&stats);
         let class_attributes = class.map(|c| c.fill()).unwrap_or_default();
-        let alignment: Alignment = ARGS
-            .alignment
-            .as_ref()
-            .cloned()
-            .unwrap_or(Alignment::roll());
+
+        let (alignment, deity) = match (&ARGS.alignment, &ARGS.deity) {
+            (Some(a), Some(d)) => (a.clone(), d.clone()),
+            (Some(a), None) => (a.clone(), Deity::by_alignment(a)),
+            (None, Some(d)) => (d.alignment().unwrap_or(Alignment::roll()), d.clone()),
+            (None, None) => {
+                let a = Alignment::roll();
+                let b = Deity::by_alignment(&a);
+                (a, b)
+            }
+        };
+
         let ancestry = ARGS.ancestry.as_ref().cloned().unwrap_or(Ancestry::roll());
         // check the extra language supplied
         // TODO: find a better place
@@ -94,7 +101,7 @@ impl Character {
         let ancestry_attributes = AncestryAttributes::new(ancestry, ARGS.language.as_ref());
         Self {
             background: Background::roll(),
-            deity: Deity::roll(&alignment),
+            deity,
             alignment,
             inventory: Inventory::new(class_attributes.level),
             name: ARGS

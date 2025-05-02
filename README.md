@@ -58,5 +58,4 @@ cross build --target aarch64-unknown-linux-gnu
 - randomize class for several eqaual stats (e.g. if STR and INT is 16, choose either class)
 - talent rolls (e.g. human's extra one)
 - re-roll duplicated talents when applicable (e.g. human theif, vigilant)
-- allow to supply deity as argument
 - cleanup values clonning in the code
