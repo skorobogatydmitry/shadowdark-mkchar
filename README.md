@@ -52,6 +52,9 @@ cross build --target aarch64-unknown-linux-gnu
 
 # NEXT
 
+- allow to choose spells
+- fix dashes in skills
+- add spells description in a separated block
 - randomize class for several eqaual stats
 - re-roll duplicated talents when applicable (theif, vigilant)
 - talent rolls (e.g. human's extra one)

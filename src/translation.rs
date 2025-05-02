@@ -7,7 +7,7 @@ use rand::seq::IndexedRandom;
 
 use serde::Deserialize;
 
-use crate::{ancestry::Ancestry, args::ARGS};
+use crate::{ancestry::Ancestry, args::ARGS, class::Class};
 
 pub const LANG_PACK: LazyCell<LangPack> = LazyCell::new(|| LangPack::load());
 
@@ -52,6 +52,8 @@ pub struct LangPack {
     pub names: Names,
     pub available: String,
     pub ft: String,
+    pub spell: String,
+    pub spells: Spells,
 }
 
 impl LangPack {
@@ -90,6 +92,7 @@ pub struct ErrorMessages {
     pub stats_out_of_attempts: String,
     pub non_common_language: String,
     pub pdf_compilation_failed: String,
+    not_enough_spells: String,
 }
 
 #[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
@@ -291,5 +294,35 @@ impl Names {
             Ancestry::Kobold => self.kobold.choose(&mut rng),
         }
         .unwrap()
+    }
+}
+
+#[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
+pub struct Spells {
+    wizard: Vec<String>,
+    priest: Vec<String>,
+}
+
+impl Spells {
+    pub fn roll(&self, class: &Class, count: usize) -> Vec<String> {
+        let mut rng = rand::rng();
+        let list = match class {
+            Class::Priest => &self.priest,
+            Class::Wizard => &self.wizard,
+            _ => return vec![],
+        };
+
+        if list.len() < count {
+            panic!(
+                "{}: {} / {}",
+                LANG_PACK.error_messages.not_enough_spells,
+                list.len(),
+                count
+            )
+        }
+
+        list.choose_multiple(&mut rng, count)
+            .map(|s| s.clone())
+            .collect()
     }
 }

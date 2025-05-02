@@ -64,8 +64,14 @@ impl Class {
                     ClassFeature::JackOfAllTrades,
                     ClassFeature::Backstab,
                 ],
-                Self::Priest => vec![ClassFeature::SpellCasting, ClassFeature::TurnUndead],
-                Self::Wizard => vec![ClassFeature::SpellCasting, ClassFeature::LearningSpells],
+                Self::Priest => vec![
+                    ClassFeature::SpellCasting(LANG_PACK.spells.roll(&Self::Priest, 2)),
+                    ClassFeature::TurnUndead,
+                ],
+                Self::Wizard => vec![
+                    ClassFeature::SpellCasting(LANG_PACK.spells.roll(&Self::Wizard, 3)),
+                    ClassFeature::LearningSpells,
+                ],
             },
             talents: vec![self.roll_talent()],
             languages: match self {
@@ -275,7 +281,7 @@ pub enum ClassFeature {
     WeaponMastery,
     Grit,
     TurnUndead,
-    SpellCasting,
+    SpellCasting(Vec<String>),
     LearningSpells,
     Backstab,
     Theivery,
@@ -290,7 +296,11 @@ impl ClassFeature {
             Self::WeaponMastery => LANG_PACK.class_features.weapon_mastery.clone(),
             Self::Grit => LANG_PACK.class_features.grit.clone(),
             Self::TurnUndead => LANG_PACK.class_features.turn_undead.clone(),
-            Self::SpellCasting => LANG_PACK.class_features.spellcasting.clone(),
+            Self::SpellCasting(spells) => {
+                let mut f = LANG_PACK.class_features.spellcasting.clone();
+                f.description.push_str(&format!(": {}", spells.join(", ")));
+                f
+            }
             Self::LearningSpells => LANG_PACK.class_features.learning_spells.clone(),
             Self::Backstab => LANG_PACK.class_features.backstab.clone(),
             Self::Theivery => LANG_PACK.class_features.theivery.clone(),
