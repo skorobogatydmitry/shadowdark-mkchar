@@ -6,10 +6,12 @@ use strum_macros::EnumIter;
 use crate::{
     Dice,
     ancestry::Language,
+    args::ARGS,
+    spell::Spell,
     translation::{Feature, LANG_PACK},
 };
 
-#[derive(Debug, Clone, EnumIter)]
+#[derive(Debug, Clone, EnumIter, PartialEq, Eq)]
 pub enum Class {
     Fighter,
     Thief,
@@ -64,12 +66,9 @@ impl Class {
                     ClassFeature::JackOfAllTrades,
                     ClassFeature::Backstab,
                 ],
-                Self::Priest => vec![
-                    ClassFeature::SpellCasting(LANG_PACK.spells.roll(&Self::Priest, 2)),
-                    ClassFeature::TurnUndead,
-                ],
+                Self::Priest => vec![ClassFeature::choose_spells(&self), ClassFeature::TurnUndead],
                 Self::Wizard => vec![
-                    ClassFeature::SpellCasting(LANG_PACK.spells.roll(&Self::Wizard, 3)),
+                    ClassFeature::choose_spells(&self),
                     ClassFeature::LearningSpells,
                 ],
             },
@@ -281,7 +280,7 @@ pub enum ClassFeature {
     WeaponMastery,
     Grit,
     TurnUndead,
-    SpellCasting(Vec<String>),
+    SpellCasting(Vec<Spell>),
     LearningSpells,
     Backstab,
     Theivery,
@@ -290,6 +289,37 @@ pub enum ClassFeature {
 }
 
 impl ClassFeature {
+    pub fn choose_spells(c: &Class) -> Self {
+        let spells_count = match c {
+            Class::Priest => 2,
+            Class::Wizard => 3,
+            _ => 0,
+        };
+        ClassFeature::SpellCasting(
+            if let Some(spell_list) = ARGS.spell.as_ref().map(|s| s.to_vec()) {
+                for s in &spell_list {
+                    if !s.of_class(c) {
+                        panic!(
+                            "{}: {} {}",
+                            LANG_PACK.error_messages.incorrect_spell_class, c, s
+                        )
+                    }
+                }
+                if spell_list.len() != spells_count {
+                    panic!(
+                        "{}: {} / {}",
+                        LANG_PACK.error_messages.incorrect_spells_count,
+                        spells_count,
+                        spell_list.len()
+                    )
+                }
+                spell_list
+            } else {
+                Spell::roll(c, spells_count)
+            },
+        )
+    }
+
     pub fn to_feature(&self) -> Feature {
         match self {
             Self::Hauler => LANG_PACK.class_features.hauler.clone(),
@@ -298,7 +328,14 @@ impl ClassFeature {
             Self::TurnUndead => LANG_PACK.class_features.turn_undead.clone(),
             Self::SpellCasting(spells) => {
                 let mut f = LANG_PACK.class_features.spellcasting.clone();
-                f.description.push_str(&format!(": {}", spells.join(", ")));
+                f.description.push_str(&format!(
+                    ": {}",
+                    spells
+                        .iter()
+                        .map(|s| s.to_feature().name.clone())
+                        .collect::<Vec<String>>()
+                        .join(", ")
+                ));
                 f
             }
             Self::LearningSpells => LANG_PACK.class_features.learning_spells.clone(),
@@ -312,7 +349,16 @@ impl ClassFeature {
 
 impl Display for ClassFeature {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.to_feature())
+        write!(f, "{}", self.to_feature())?;
+        match self {
+            ClassFeature::SpellCasting(spells) => {
+                for s in spells {
+                    write!(f, "\n\t{}", s)?;
+                }
+            }
+            _ => (),
+        }
+        Ok(())
     }
 }
 

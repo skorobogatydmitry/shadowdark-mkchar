@@ -22,6 +22,7 @@ mod background;
 mod class;
 mod deities;
 mod inventory;
+mod spell;
 mod stats;
 
 mod translation;
@@ -34,12 +35,22 @@ enum Dice {
 
 impl Dice {
     fn roll(&self) -> u8 {
-        let max = match self {
+        let max = self.to_i();
+        rand::rng().random_range(1..=max)
+    }
+
+    fn to_i(&self) -> u8 {
+        match self {
             Self::D4 => 4,
             Self::D6 => 6,
             Self::D8 => 8,
-        };
-        rand::rng().random_range(1..=max)
+        }
+    }
+}
+
+impl Display for Dice {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}{}", LANG_PACK.dice, self.to_i())
     }
 }
 

@@ -52,10 +52,11 @@ cross build --target aarch64-unknown-linux-gnu
 
 # What to contribute?
 
-- allow to choose spells (now they're randomed)
-- fix dashes in skills (just a font problem)
 - add spell descriptions in a separated block of PDF
+
 - randomize class for several eqaual stats (e.g. if STR and INT is 16, choose either class)
 - talent rolls (e.g. human's extra one)
 - re-roll duplicated talents when applicable (e.g. human theif, vigilant)
 - cleanup values clonning in the code
+- have meta spell lists and an arg to choose them automatically
+- have interactive editor mode for e.g. spell list

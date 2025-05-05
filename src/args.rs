@@ -11,6 +11,7 @@ use crate::{
     ancestry::{Ancestry, Language},
     class::Class,
     deities::Deity,
+    spell::Spell,
     stats::Stats,
 };
 
@@ -58,6 +59,10 @@ pub struct Args {
     /// deity of your character
     #[arg(long, value_enum)]
     pub deity: Option<Deity>,
+
+    /// spell for the chosen class, you can supply the argument multiple times
+    #[arg(long, value_enum)]
+    pub spell: Option<Vec<Spell>>,
 }
 
 #[derive(Debug, Clone, ValueEnum)]

@@ -7,7 +7,7 @@ use rand::seq::IndexedRandom;
 
 use serde::Deserialize;
 
-use crate::{ancestry::Ancestry, args::ARGS, class::Class};
+use crate::{ancestry::Ancestry, args::ARGS};
 
 pub const LANG_PACK: LazyCell<LangPack> = LazyCell::new(|| LangPack::load());
 
@@ -54,6 +54,12 @@ pub struct LangPack {
     pub ft: String,
     pub spell: String,
     pub spells: Spells,
+    pub level: String,
+    pub distance: String,
+    pub distances: Distances,
+    pub duration: String,
+    pub durations: Durations,
+    pub dice: String,
 }
 
 impl LangPack {
@@ -92,7 +98,9 @@ pub struct ErrorMessages {
     pub stats_out_of_attempts: String,
     pub non_common_language: String,
     pub pdf_compilation_failed: String,
-    not_enough_spells: String,
+    pub incorrect_spell_class: String,
+    pub incorrect_spells_count: String,
+    pub not_enough_spells: String,
 }
 
 #[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
@@ -299,30 +307,38 @@ impl Names {
 
 #[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
 pub struct Spells {
-    wizard: Vec<String>,
-    priest: Vec<String>,
+    pub cure_wounds: Feature,
+    pub holy_weapon: Feature,
+    pub light: Feature,
+    pub protection_from_evil: Feature,
+    pub shieldof_faith: Feature,
+    pub turn_undead: Feature,
+    pub alarm: Feature,
+    pub burning_hands: Feature,
+    pub charm_person: Feature,
+    pub detect_magic: Feature,
+    pub feather_fall: Feature,
+    pub floating_disk: Feature,
+    pub hold_portal: Feature,
+    pub mage_armor: Feature,
+    pub magic_missile: Feature,
+    pub sleep: Feature,
 }
 
-impl Spells {
-    pub fn roll(&self, class: &Class, count: usize) -> Vec<String> {
-        let mut rng = rand::rng();
-        let list = match class {
-            Class::Priest => &self.priest,
-            Class::Wizard => &self.wizard,
-            _ => return vec![],
-        };
+#[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
+pub struct Distances {
+    pub on_self: String,
+    pub close: String,
+    pub near: String,
+    pub far: String,
+}
 
-        if list.len() < count {
-            panic!(
-                "{}: {} / {}",
-                LANG_PACK.error_messages.not_enough_spells,
-                list.len(),
-                count
-            )
-        }
-
-        list.choose_multiple(&mut rng, count)
-            .map(|s| s.clone())
-            .collect()
-    }
+#[derive(Deserialize, Clone, Debug, IntoValue, IntoDict)]
+pub struct Durations {
+    pub instant: String,
+    pub focus: String,
+    pub rounds: String,
+    pub hours: String,
+    pub days: String,
+    pub days_dice: String,
 }
