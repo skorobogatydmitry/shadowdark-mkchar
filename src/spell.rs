@@ -148,7 +148,7 @@ impl Spell {
     }
 
     pub fn to_feature(&self) -> Feature {
-        match self {
+        let mut f = match self {
             Self::CureWounds => LANG_PACK.spells.cure_wounds.clone(),
             Self::HolyWeapon => LANG_PACK.spells.holy_weapon.clone(),
             Self::Light => LANG_PACK.spells.light.clone(),
@@ -165,21 +165,22 @@ impl Spell {
             Self::MageArmor => LANG_PACK.spells.mage_armor.clone(),
             Self::MagicMissile => LANG_PACK.spells.magic_missile.clone(),
             Self::Sleep => LANG_PACK.spells.sleep.clone(),
-        }
+        };
+        f.description = format!(
+            "{}: {}; {}; {}; {}",
+            LANG_PACK.level,
+            self.level(),
+            self.duration(),
+            self.distance(),
+            f.description
+        );
+        f
     }
 }
 
 impl Display for Spell {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{}, {}: {}, {}, {}",
-            self.to_feature(),
-            LANG_PACK.level,
-            self.level(),
-            self.duration(),
-            self.distance()
-        )
+        write!(f, "{}", self.to_feature())
     }
 }
 

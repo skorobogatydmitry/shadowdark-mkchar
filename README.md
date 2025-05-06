@@ -52,7 +52,7 @@ cross build --target aarch64-unknown-linux-gnu
 
 # What to contribute?
 
-- add spell descriptions in a separated block of PDF
+- make PDF's spells block dynamic based on # of spells
 
 - randomize class for several eqaual stats (e.g. if STR and INT is 16, choose either class)
 - talent rolls (e.g. human's extra one)

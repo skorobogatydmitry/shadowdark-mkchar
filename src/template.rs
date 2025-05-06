@@ -6,6 +6,7 @@ use typst_as_lib::TypstEngine;
 use crate::{
     Character,
     args::ARGS,
+    class::ClassFeature,
     translation::{Feature, LANG_PACK, LangPack},
 };
 
@@ -33,6 +34,7 @@ struct TypstTemplateData {
     silver_pieces: u32,
     slots_count: u8,
     items: Vec<String>,
+    spells: Vec<Feature>,
 }
 
 impl From<TypstTemplateData> for Dict {
@@ -90,6 +92,18 @@ impl From<&Character> for TypstTemplateData {
                 .iter()
                 .map(|i| i.to_string())
                 .collect(),
+            spells: value
+                .class_attributes
+                .class_features
+                .iter()
+                .find_map(|f| {
+                    if let ClassFeature::SpellCasting(spells) = f {
+                        Some(spells.iter().map(|s| s.to_feature()).collect())
+                    } else {
+                        None
+                    }
+                })
+                .unwrap_or(vec![]),
         }
     }
 }

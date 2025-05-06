@@ -172,7 +172,7 @@
   dir: ltr,
   spacing: 2%,
   box(
-    width: 49%,
+    width: 38%,
     [
       #set text(18pt, font: "Kereru")
       #table(
@@ -198,11 +198,6 @@
           )
         },
       )
-    ],
-  ),
-  box(
-    width: 49%,
-    [
       #set text(18pt, font: "Kereru")
       #table(
         columns: (.7fr, 1fr, .7fr, 1fr),
@@ -220,6 +215,37 @@
         table.cell(inset: (y: .3em), align: left, [#inputs.gold_pieces]),
         table.cell(inset: (y: .3em), [#inputs.terms.silver_pieces]),
         table.cell(inset: (y: .3em), align: left, [#inputs.silver_pieces]),
+      )
+    ],
+  ),
+  box(
+    width: 60%,
+    [
+      #set align(center)
+      = #inputs.terms.spell
+      #set text(6pt, font: "Kereru")
+      #table(
+        columns: 1,
+        stroke: none,
+        inset: .5em,
+        align: center,
+        ..for t in inputs.spells {
+          (
+            [
+              #set text(8pt, font: "Kereru")
+              = #t.name
+            ],
+            table.cell(
+              stroke: 1pt,
+              align: left,
+              inset: (y: .7em, x: .5em),
+              [
+                #set text(10pt, font: "Kereru")
+                #t.description
+              ],
+            ),
+          )
+        }
       )
     ],
   ),
