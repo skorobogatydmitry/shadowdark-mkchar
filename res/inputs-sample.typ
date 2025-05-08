@@ -15,20 +15,21 @@
     purse: "moneybag",
     gold_pieces: "gp",
     silver_pieces: "sp",
-    inventory: "items"
+    inventory: "items",
+    spell: "spell",
   ),
   hit_points: 10,
   ancestry: "a",
   ancestry_feature: (name: "af", description: "ancestry feature 1"),
   name: "some",
   stats: ((name: "some", value: 1, modifier: 2), (name: "some", value: 1, modifier: 2)),
-  languages: ("1","2"),
+  languages: ("1", "2"),
   background: "b",
   alignment: "pure evil",
   deity: "shiva",
   class_features: (
     (name: "f1", description: "f1d"),
-    (name: "f2", description: "f2d")
+    (name: "f2", description: "f2d"),
   ),
   class: "monkey",
   weapon_masteries: ("w1", "w2", "w3"),
@@ -36,6 +37,9 @@
   gold_pieces: 12,
   silver_pieces: 123,
   slots_count: 18,
-  items: ("item 1", "item 2", "item 3")
-
+  items: ("item 1", "item 2", "item 3"),
+  spells: (
+    (name: "s1", description: "s1d"),
+    (name: "s2", description: "s2d"),
+  ),
 )

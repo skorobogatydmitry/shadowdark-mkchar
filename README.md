@@ -16,9 +16,9 @@ Features:
 ## Translations
 
 The tool supports language packs.  
-Run the tool with `--help` to see what's the default translation supplied with the tool.  
-The tool searches for the file in its directory and in the working directory.  
-`--translation` argument could be used to overwrite the file like this: `./shadowdark-mkchar --translation lang/alt.json`
+Run the tool with `--help` to see what's the default translation used by the tool.  
+The tool searches for the file in its directory and the working directory.  
+`--translation` argument could be used to pick the file like this: `./shadowdark-mkchar --translation lang/alt.json`
 
 # PDF
 
@@ -52,11 +52,10 @@ cross build --target aarch64-unknown-linux-gnu
 
 # What to contribute?
 
-- make PDF's spells block dynamic based on # of spells
-
-- randomize class for several eqaual stats (e.g. if STR and INT is 16, choose either class)
-- talent rolls (e.g. human's extra one)
-- re-roll duplicated talents when applicable (e.g. human theif, vigilant)
+- other languages
+- randomize class in case there are several equal stats (e.g. if STR and INT are 16, choose either warrior or wizard)
+- ancestry talent rolls (e.g. human's extra one)
+- re-roll duplicated talents when applicable (e.g. theif's vigilant)
 - cleanup values clonning in the code
-- have meta spell lists and an arg to choose them automatically
-- have interactive editor mode for e.g. spell list
+- have meta spell lists and an arg to use the meta or random
+- save character to YAML/ JSON + have interactive editor mode for e.g. spell list

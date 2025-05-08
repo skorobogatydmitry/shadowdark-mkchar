@@ -83,7 +83,7 @@
         = #inputs.terms.talent
         #set text(6pt, font: "Kereru")
         #table(
-          columns: 1,
+          columns: 1fr,
           stroke: none,
           inset: .5em,
           align: center,
@@ -107,7 +107,7 @@
         )
         #set text(6pt, font: "Kereru")
         #table(
-          columns: 1,
+          columns: 1fr,
           stroke: none,
           inset: .5em,
           align: center,
@@ -168,11 +168,51 @@
 
 #pagebreak()
 
+#let no_spells = inputs.spells.len() == 0
+
+#let inventory_width = if no_spells { 100% } else { 40% }
+
+#let spells_box = if no_spells {
+  box()
+} else {
+  box(
+    width: 58%,
+    [
+      #set align(center)
+      = #inputs.terms.spell
+      #set text(6pt, font: "Kereru")
+      #table(
+        columns: 1fr,
+        stroke: none,
+        inset: .5em,
+        align: center,
+        ..for t in inputs.spells {
+          (
+            [
+              #set text(8pt, font: "Kereru")
+              = #t.name
+            ],
+            table.cell(
+              stroke: 1pt,
+              align: left,
+              inset: (y: .7em, x: .5em),
+              [
+                #set text(10pt, font: "Kereru")
+                #t.description
+              ],
+            ),
+          )
+        }
+      )
+    ],
+  )
+}
+
 #stack(
   dir: ltr,
   spacing: 2%,
   box(
-    width: 38%,
+    width: inventory_width,
     [
       #set text(18pt, font: "Kereru")
       #table(
@@ -218,35 +258,5 @@
       )
     ],
   ),
-  box(
-    width: 60%,
-    [
-      #set align(center)
-      = #inputs.terms.spell
-      #set text(6pt, font: "Kereru")
-      #table(
-        columns: 1,
-        stroke: none,
-        inset: .5em,
-        align: center,
-        ..for t in inputs.spells {
-          (
-            [
-              #set text(8pt, font: "Kereru")
-              = #t.name
-            ],
-            table.cell(
-              stroke: 1pt,
-              align: left,
-              inset: (y: .7em, x: .5em),
-              [
-                #set text(10pt, font: "Kereru")
-                #t.description
-              ],
-            ),
-          )
-        }
-      )
-    ],
-  ),
+  spells_box,
 )
