@@ -55,5 +55,5 @@ pre-release:
 
 	git diff HEAD --quiet
 	test -z ${HEAD_TAG} && git tag ${VERSION} || true
-	test ${HEAD_TAG} = ${VERSION}
+	test "${HEAD_TAG}" = ${VERSION}
 	git push --tags
