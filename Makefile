@@ -1,4 +1,4 @@
-VERSION = `cargo metadata --format-version 1 --no-deps | jq -r '.packages[0].version'`
+VERSION = `cargo metadata --format-version 1 --no-deps | jq -r '.packages[0].version' | tr -d '\r'`
 HEAD_TAG = `git tag --list --points-at HEAD`
 BASENAME = shadowdark-mkchar-${VERSION}
 
@@ -54,6 +54,6 @@ pre-release:
 	rm -rf ./release
 
 	git diff HEAD --quiet
-	test -z ${HEAD_TAG} && git tag ${VERSION} || true
-	test "${HEAD_TAG}" = ${VERSION}
+	test -z "${HEAD_TAG}" && git tag ${VERSION} || true
+	test "${HEAD_TAG}" == "${VERSION}"
 	git push --tags
