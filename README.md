@@ -7,11 +7,16 @@ Features:
 - supports [translations](#translations) (only russian is built)
 - prints character to console and makes a PDF file
 
-# Run
+# HOWTO use the tool ?
 
-- you need to download and unpack one of the release archives from github
-- then open terminal window
-- then run something like `./Downloads/shadowdark-mkchar-*/shadowdark-mkchar`
+- you need to download [one of the release archives from github](https://github.com/skorobogatydmitry/shadowdark-mkchar/releases/latest) depending on your OS and architecture
+- unpack the archive: `shadowdark-mkchar-...` folder should appear
+- then open a terminal window
+  > You could just click on the `shadowdark-mkchar` file in the folder
+- then run something like `~/Downloads/shadowdark-mkchar-*/shadowdark-mkchar`
+  > MacOS may say that the file is corrupted and can't be launched. It's because the tool is not signed through Apple. You need to manually force MacOS to trust it: `sudo xattr -r -d com.apple.quarantine ~/Downloads/shadowdark-mkchar-*/shadowdark-mkchar`
+
+Explore what args are supported by `~/Downloads/shadowdark-mkchar-*/shadowdark-mkchar --help`.
 
 ## Translations
 
@@ -58,10 +63,16 @@ See [Makefile](./Makefile)'s `release-win` target. It relies on cygwin + rustup 
 
 # What to contribute?
 
-- other languages
+## Usability & new features
+
+- other language packs
 - randomize class in case there are several equal stats (e.g. if STR and INT are 16, choose either warrior or wizard)
 - ancestry talent rolls (e.g. human's extra one)
 - re-roll duplicated talents when applicable (e.g. theif's vigilant)
-- cleanup values clonning in the code
 - have meta spell lists and an arg to use the meta or random
 - save character to YAML/ JSON + have interactive editor mode for e.g. spell list
+
+## Refactoring
+
+- cleanup values clonning in the code
+- change the typst template to dynamically adjust layout by checking actual content size
