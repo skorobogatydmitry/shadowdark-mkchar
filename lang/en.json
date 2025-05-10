@@ -120,7 +120,7 @@
       "description": "You know the turn undead spell. It doesn’t count toward your number of known spells."
     },
     "spellcasting": {
-      "name": "spellcasting",
+      "name": "Spellcasting",
       "description": "You can cast wizard spells you know."
     },
     "learning_spells": {
