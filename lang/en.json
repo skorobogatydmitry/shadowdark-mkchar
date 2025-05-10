@@ -1,0 +1,509 @@
+{
+  "error_messages": {
+    "stats_out_of_attempts": "Failed to generate stats in 10 attempts, try again",
+    "non_common_language": "You cannot select this language for the given origin",
+    "pdf_compilation_failed": "PDF compilation failed",
+    "incorrect_spell_class": "The selected spell does not match the class.",
+    "incorrect_spells_count": "The number of spells selected does not match the class",
+    "not_enough_spells": "Not enough spells"
+  },
+  "stats": "Stats",
+  "strength": "Strength",
+  "dexterity": "Dexterity",
+  "constitution": "Constitution",
+  "intellegence": "Intellegence",
+  "wisdom": "Wisdom",
+  "charisma": "Charisma",
+  "ancestry": "Ancestry",
+  "ancestries": {
+    "dwarf": "Dwarf",
+    "elf": "Elf",
+    "goblin": "Goblin",
+    "half_orc": "Half Orc",
+    "human": "Human",
+    "kobold": "Kobold",
+    "halfling": "Halfling"
+  },
+  "language": "Languages",
+  "languages": {
+    "common": "Common",
+    "dwarwish": "Dwarwish",
+    "elvish": "Elvish",
+    "sylvan": "Sylvan",
+    "goblin": "Goblin",
+    "orchish": "Orchish",
+    "draconic": "Draconic",
+    "giant": "Giant",
+    "merran": "Merran",
+    "reptillian": "Reptillian",
+    "thanian": "Thanian",
+    "celestial": "Celestial",
+    "diabolic": "Diabolic",
+    "primordial": "Primordial"
+  },
+  "ancestry_features": {
+    "stout": {
+      "name": "Stout",
+      "description": "Start with +2 HP. Roll hit points per level with advantage."
+    },
+    "farsight": {
+      "name": "Farsight",
+      "description": "You get a +1 bonus to attack rolls with ranged weapons or a +1 bonus to spellcasting checks."
+    },
+    "keen_senses": {
+      "name": "Keen Senses",
+      "description": "You can't be surprised."
+    },
+    "mighty": {
+      "name": "Mighty",
+      "description": "You have a +1 bonus to attack and damage rolls with melee weapons."
+    },
+    "stealthy": {
+      "name": "Stealthy",
+      "description": "Once per day, you can become invisible for 3 rounds."
+    },
+    "ambitious": {
+      "name": "Ambitious",
+      "description": "You gain one additional talent roll at 1st level."
+    },
+    "knack": {
+      "name": "Knack",
+      "description": "You get +1 to spellcasting checks or may begin each session with a luck token."
+    }
+  },
+  "class": "Class",
+  "class_args": {
+    "zero": "None",
+    "any": "Any",
+    "fighter": "Fighter",
+    "thief": "Thief",
+    "wizard": "Wizard",
+    "priest": "Priest"
+  },
+  "hit_points": "HP",
+  "weapon": "Weapon",
+  "weapon_masteries": {
+    "all": "All",
+    "club": "Club",
+    "crossbow": "Crossbow",
+    "mace": "Mace",
+    "longsword": "Longsword",
+    "staff": "Staff",
+    "warhammer": "Warhammer",
+    "dagger": "Dagger",
+    "shortbow": "Shortbow",
+    "shortsword": "Shortsword"
+  },
+  "armor": "Armor",
+  "armor_masteries": {
+    "all": "All",
+    "shields": "Shields",
+    "leather_armor": "Leather armor",
+    "mithral_chainmail": "Mithral chainmail"
+  },
+  "features": "Features",
+  "class_features": {
+    "hauler": {
+      "name": "Hauler",
+      "description": "Add your Constitution modifier, if positive, to your gear slots."
+    },
+    "weapon_mastery": {
+      "name": "Weapon Mastery",
+      "description": "Choose one type of weapon, such as longswords. You gain +1 to attack and damage with that weapon type. In addition, add half your level to these rolls (round down)."
+    },
+    "grit": {
+      "name": "Grit",
+      "description": "Choose Strength or Dexterity. You have advantage on checks of that type to overcome an opposing force, such as kicking open a stuck door (Strength) or slipping free of rusty chains (Dexterity)."
+    },
+    "turn_undead": {
+      "name": "Turn Undead",
+      "description": "You know the turn undead spell. It doesn’t count toward your number of known spells."
+    },
+    "spellcasting": {
+      "name": "Spellcasting",
+      "description": "You can cast wizard spells you know."
+    },
+    "learning_spells": {
+      "name": "Learning Spells",
+      "description": "You can permanently learn a wizard spell from a spell scroll by studying it for a day and succeeding on a DC 15 Intelligence check."
+    },
+    "backstab": {
+      "name": "Backstab",
+      "description": "If you hit a creature who is unaware of your attack, you deal an extra weapon die of damage. Add additional weapon dice of damage equal to half your level (round down)."
+    },
+    "theivery": {
+      "name": "Thievery",
+      "description": "You are adept at thieving skills and have the necessary tools of the trade secreted on your person (they take up no gear slots)."
+    },
+    "jack_of_all_trades": {
+      "name": "Jack of all Trades",
+      "description": "You are trained in the following tasks and have advantage on any associated checks: Climbing, Sneaking and hiding, Applying disguises, Finding and disabling traps, Delicate tasks such as picking pockets and opening locks."
+    },
+    "beginners_luck": {
+      "name": "Beginners Luck",
+      "description": "You can wield all gear until 1st level."
+    }
+  },
+  "talent": "Talents",
+  "talents": {
+    "weapon_mastery": {
+      "name": "Weapon Mastery",
+      "description": "Gain Weapon Mastery with one additional weapon type"
+    },
+    "precise_strike": {
+      "name": "Precise Strike",
+      "description": "+1 to melee and ranged attacks"
+    },
+    "trained": {
+      "name": "Trained",
+      "description": "+2 to Strength, Dexterity, or Constitution stat"
+    },
+    "armor_training": {
+      "name": "Armor Training",
+      "description": "Choose one kind of armor. You get +1 AC from that armor"
+    },
+    "gifted": {
+      "name": "Gifted",
+      "description": "Choose a talent or +2 points to distribute to stats"
+    },
+    "versatile": {
+      "name": "Versatile",
+      "description": "+2 to Strength, Dexterity, or Charisma stat"
+    },
+    "vigilant": {
+      "name": "Vigilant",
+      "description": "Gain advantage on initiative rolls (reroll if duplicate)"
+    },
+    "deadly_stab": {
+      "name": "Deadly Stab",
+      "description": "Your Backstab deals +1 dice of damage"
+    },
+    "god_blessed": {
+      "name": "God Blessed",
+      "description": "+1 to priest spellcasting checks"
+    },
+    "spell_expert": {
+      "name": "Spell Expert",
+      "description": "Gain advantage on casting one spell you know"
+    },
+    "skilled_caster": {
+      "name": "Skilled Caster",
+      "description": "+2 to Intelligence stat or +1 to wizard spellcasting checks"
+    },
+    "devoted": {
+      "name": "Devoted",
+      "description": "+2 to Strength or Wisdom stat"
+    },
+    "thin_air_craft": {
+      "name": "Thin Air Craft",
+      "description": "Make one random magic item (see GM Quickstart Guide)"
+    },
+    "bookworm": {
+      "name": "Bookworm",
+      "description": "Learn one additional wizard spell of any tier you know"
+    }
+  },
+  "deity": "Deity",
+  "deities": {
+    "saint_terragnis": "Saint Terragnis",
+    "gede": "Gede",
+    "madeera_the_covenant": "Madeera The Covenant",
+    "ord": "Ord",
+    "memnon": "Memnon",
+    "ramlaat": "Ramlaat",
+    "shune_the_vile": "Shune The Vile",
+    "the_lost": "The Lost"
+  },
+  "background": "Background",
+  "backgrounds": {
+    "urchin": "Urchin",
+    "wanted": "Wanted",
+    "cult_initiate": "Cult Initiate",
+    "thieves_guild": "Thieves Guild",
+    "banished": "Banished",
+    "orphaned": "Orphaned",
+    "wizards_apprentice": "Wizards Apprentice",
+    "jeweler": "Jeweler",
+    "herbalist": "Herbalist",
+    "barbarian": "Barbarian",
+    "mercenary": "Mercenary",
+    "sailor": "Sailor",
+    "alcolyte": "Alcolyte",
+    "soldier": "Soldier",
+    "ranger": "Ranger",
+    "scout": "Scout",
+    "minstrel": "Minstrel",
+    "scholar": "Scholar",
+    "nobel": "Nobel",
+    "chirurgeon": "Chirurgeon"
+  },
+  "alignment": "Alignment",
+  "alignments": {
+    "chaotic": "Chaotic",
+    "neutral": "Neutral",
+    "lawful": "Lawful"
+  },
+  "inventory": "Inventory",
+  "purse": "Purse",
+  "gold_pieces": "Gold Pieces",
+  "silver_pieces": "Silver Pieces",
+  "gear": {
+    "torch": "Torch",
+    "dagger": "Dagger",
+    "pole": "Pole",
+    "shortbow": "Shortbow",
+    "arrows": "Arrows",
+    "rope": "Rope",
+    "flask_of_oil": "Flask of oil",
+    "crowbar": "Crowbar",
+    "iron_spikes": "Iron spikes",
+    "flint_and_steel": "Flint and Steel",
+    "grappling_hook": "Grappling hook",
+    "club": "Club",
+    "bag_of_caltrops": "Bag of caltrops"
+  },
+  "name": "Name",
+  "names": {
+    "dwarf": [
+      "Hilde",
+      "Torbin",
+      "Marga",
+      "Bruno",
+      "Karina",
+      "Naugrim",
+      "Brenna",
+      "Darvin",
+      "Elga",
+      "Alric",
+      "Isolde",
+      "Gendry",
+      "Bruga",
+      "Junnor",
+      "Vidrid",
+      "Torson",
+      "Brielle",
+      "Ulfgar",
+      "Sarna",
+      "Grimm"
+    ],
+    "elf": [
+      "Eliara",
+      "Ryarn",
+      "Sariel",
+      "Tirolas",
+      "Galira",
+      "Varos",
+      "Daeniel",
+      "Axidor",
+      "Hiralia",
+      "Cyrwin",
+      "Lothiel",
+      "Zaphiel",
+      "Nayra",
+      "Ithior",
+      "Amriel",
+      "Elyon",
+      "Jirwyn",
+      "Natinel",
+      "Fiora",
+      "Ruhiel"
+    ],
+    "goblin": [
+      "Iggs",
+      "Tark",
+      "Nix",
+      "Lenk",
+      "Roke",
+      "Fitz",
+      "Tila",
+      "Riggs",
+      "Prim",
+      "Zeb",
+      "Finn",
+      "Borg",
+      "Yark",
+      "Deeg",
+      "Nibs",
+      "Brak",
+      "Fink",
+      "Rizzo",
+      "Squib",
+      "Grix"
+    ],
+    "halfling": [
+      "Willow",
+      "Benny",
+      "Annie",
+      "Tucker",
+      "Marie",
+      "Hobb",
+      "Cora",
+      "Gordie",
+      "Rose",
+      "Ardo",
+      "Alma",
+      "Norbert",
+      "Jennie",
+      "Barvin",
+      "Tilly",
+      "Pike",
+      "Lydia",
+      "Marlow",
+      "Astrid",
+      "Jasper"
+    ],
+    "half_orc": [
+      "Vara",
+      "Gralk",
+      "Ranna",
+      "Korv",
+      "Zasha",
+      "Hrogar",
+      "Klara",
+      "Tragan",
+      "Brolga",
+      "Drago",
+      "Yelena",
+      "Krull",
+      "Ulara",
+      "Tulk",
+      "Shiraal",
+      "Wulf",
+      "Ivara",
+      "Hirok",
+      "Aja",
+      "Zoraan"
+    ],
+    "human": [
+      "Zali",
+      "Bram",
+      "Clara",
+      "Nattias",
+      "Rina",
+      "Denton",
+      "Mirena",
+      "Aran",
+      "Morgan",
+      "Giralt",
+      "Tamra",
+      "Oscar",
+      "Ishana",
+      "Rogar",
+      "Jasmin",
+      "Tarin",
+      "Yuri",
+      "Malchor",
+      "Lienna",
+      "Godfrey"
+    ],
+    "kobold": [
+      "Zirrik",
+      "Mixa",
+      "Graksh",
+      "Tshira",
+      "Skrieg",
+      "Rix",
+      "Sharga",
+      "Flinz",
+      "Yit",
+      "Skeev",
+      "Shirpi",
+      "Skrund",
+      "Shkip",
+      "Nixa",
+      "Grindle",
+      "Turshi",
+      "Whipp",
+      "Kras", 
+      "Riprick",
+      "Fizzka"
+    ]
+  },
+  "spell": "Spells",
+  "spells": {
+    "cure_wounds": {
+      "name": "Cure Wounds",
+      "description": "Your touch restores ebbing life. Roll a number of d6s equal to 1 + half your level (rounded down). One target you touch regains that many hit points."
+    },
+    "holy_weapon": {
+      "name": "Holy Weapon",
+      "description": "One weapon you touch is imbued with a sacred blessing. The weapon becomes magical and has +1 to attack and damage rolls for the duration.."
+    },
+    "light": {
+      "name": "Light",
+      "description": "One object you touch glows with bright, heatless light, illuminating out to a near distance for 1 hour of real time."
+    },
+    "protection_from_evil": {
+      "name": "Protection from Evil",
+      "description": "For the spell’s duration, chaotic beings have disadvantage on attack rolls and hostile spellcasting checks against the target. These beings also can’t possess, compel, or beguile it. When cast on an already-possessed target, the possessing entity makes a CHA check vs. the last spellcasting check. On a failure, the entity is expelled."
+    },
+    "shieldof_faith": {
+      "name": "Shield of Faith",
+      "description": "A protective force wrought of your holy conviction surrounds you. You gain a +2 bonus to your armor class for the duration."
+    },
+    "turn_undead": {
+      "name": "Turn Undead",
+      "description": "You rebuke undead creatures, forcing them to flee. You must present a holy symbol to cast this spell. Undead creatures within near of you must make a CHA check vs. your spellcasting check. If a creature fails by 10+ points and is equal to or less than your level, it is destroyed. Otherwise, on a fail, it flees from you for 5 rounds."
+    },
+    "alarm": {
+      "name": "Alarm",
+      "description": "You touch one object, such as a door threshold, setting a magical alarm on it. If any creature you do not designate while casting the spell touches or crosses past the object, a magical bell sounds in your head."
+    },
+    "burning_hands": {
+      "name": "Burning Hands",
+      "description": "You spread your fingers with thumbs touching, unleashing a circle of flame that fills a close area around where you stand. Creatures within the area of effect take 1d6 damage. Unattended flammable objects ignite."
+    },
+    "charm_person": {
+      "name": "Charm Person",
+      "description": "You magically beguile one humanoid of level 2 or less within near range, who regards you as a friend for the duration. The spell ends if you or your allies do anything to hurt it that it notices. The target knows you magically enchanted it after the spell ends."
+    },
+    "detect_magic": {
+      "name": "Detect Magic",
+      "description": "You can sense the presence of magic within near range for the spell's duration. If you focus for two rounds, you discern its general properties. Full barriers block this spell."
+    },
+    "feather_fall": {
+      "name": "Feather Fall",
+      "description": "You may make an attempt to cast this spell when you fall. Your rate of descent slows so that you land safely on your feet."
+    },
+    "floating_disk": {
+      "name": "Floating Disk",
+      "description": "You create a floating, circular disk of force with a concave center. It can carry up to 20 gear slots. It hovers at waist level and automatically stays within near of you. It can’t cross over dropoffs or pits taller than a human."
+    },
+    "hold_portal": {
+      "name": "Hold Portal",
+      "description": "You magically hold a portal closed for the duration. A creature must make a successful STR check vs. your spellcasting check to open the portal. The knock spell ends this spell."
+    },
+    "mage_armor": {
+      "name": "Mage Armor",
+      "description": "An invisible layer of magical force protects your vitals. Your armor class becomes 14 (18 on a critical spellcasting check) for the spell’s duration."
+    },
+    "magic_missile": {
+      "name": "Magic Missile",
+      "description": "You have advantage on your check to cast this spell. A glowing bolt of force streaks from your open hand, dealing 1d4 damage to one target."
+    },
+    "sleep": {
+      "name": "Sleep",
+      "description": "You weave a lulling spell that fills a near-sized cube extending from you. Living creatures in the area of effect fall into a deep sleep if they are LV 2 or less. Vigorous shaking or being injured wakes them."
+    }
+  },
+  "available": "Available",
+  "ft": "ft",
+  "level": "Tier",
+  "distance": "Distance",
+  "distances": {
+    "on_self": "On self",
+    "close": "Close",
+    "near": "Near",
+    "far": "Far"
+  },
+  "duration": "Duration",
+  "durations": {
+    "instant": "Instant",
+    "focus": "Focus",
+    "rounds": "Rounds",
+    "hours": "Hours",
+    "days": "Days",
+    "days_dice": "Days"
+  },
+  "dice": "d"
+}
