@@ -1763,7 +1763,7 @@ dependencies = [
 
 [[package]]
 name = "shadowdark-mkchar"
-version = "2.2.2"
+version = "2.3.2"
 dependencies = [
  "clap",
  "derive_typst_intoval",

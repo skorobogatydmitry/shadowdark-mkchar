@@ -245,8 +245,8 @@
   },
   "inventory": "Inventory",
   "purse": "Purse",
-  "gold_pieces": "Gold Pieces",
-  "silver_pieces": "Silver Pieces",
+  "gold_pieces": "GP",
+  "silver_pieces": "SP",
   "gear": {
     "torch": "Torch",
     "dagger": "Dagger",
@@ -414,7 +414,7 @@
       "Grindle",
       "Turshi",
       "Whipp",
-      "Kras", 
+      "Kras",
       "Riprick",
       "Fizzka"
     ]
