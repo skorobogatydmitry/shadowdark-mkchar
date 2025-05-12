@@ -71,6 +71,7 @@ See [Makefile](./Makefile)'s `release-win` target. It relies on cygwin + rustup 
 - re-roll duplicated talents when applicable (e.g. theif's vigilant)
 - have meta spell lists and an arg to use the meta or random
 - save character to YAML/ JSON + have interactive editor mode for e.g. spell list
+- make fonts in the template configurable (now they're limited to builtins for some reason)
 
 ## Refactoring
 
